@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">#f3f4f4</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="colorAccent">#ffc800</item>
+        <item name="android:editTextColor">#868685</item>
+    </style>
+</resources>

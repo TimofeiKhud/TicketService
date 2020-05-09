@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
+<group android:checkableBehavior="single">
+    <item android:id="@+id/nav_auth"
+        android:title="Login/Out" />
+    <item android:id="@+id/nav_events"
+        android:title="Events"/>
+    <item android:id="@+id/nav_shopping_card"
+        android:title="Shopping Card"/>
+    <item android:id="@+id/nav_halls_scheme"
+        android:title="Halls scheme"/>
+    <item android:id="@+id/nav_about_us"
+        android:title="About us"/>
+</group>
+</menu>

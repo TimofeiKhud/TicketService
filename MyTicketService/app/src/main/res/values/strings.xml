@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">MyTicketService</string>
+    <string name="shows">Shows</string>
+    <string name="exhibitions">Exhibitions</string>
+    <string name="concerts">Concerts</string>
+    <string name="alreadyCustomer">I am already a customer</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgottenPassword">Forgotten password?</string>
+    <string name="Login">Login</string>
+    <string name="newCustomer">New customer</string>
+    <string name="Register">Register</string>
+    <string name="LoginWithCode">Login with invitation code</string>
+    <string name="salutation">Salutation</string>
+    <string name="gender">Gender</string>
+    <string name="name">Name*</string>
+    <string name="surName">Surname*</string>
+    <string name="company">Company</string>
+    <string name="street">Street*</string>
+    <string name="house">House*</string>
+    <string name="additionalInfo">Additional info</string>
+    <string name="postcode">Postcode</string>
+    <string name="city">City</string>
+    <string name="country">Country</string>
+    <string name="ContactInfo">Contact information</string>
+    <string name="confirmPassword">Confirm password</string>
+    <string name="phoneNumber">Phone number</string>
+    <string name="additionalPhoneNumber">Additional phone number</string>
+    <string name="agreements">I have the notice on content of the Standard Terms of Business and agree to the storage of my personal data.</string>
+    <string name="notifications">I agree to get notifications on me Email and phone.</string>
+    <string name="confirmationCode">Confirmation code</string>
+    <string name="confirm">Confirm</string>
+    <string name="reserved10Min">The tickets shown here have now been reserved for you for 10minutes.</string>
+    <string name="deleteSelection">Delete selection</string>
+    <string name="infoForEvent">Info for event</string>
+    <string name="pay">Pay</string>
+    <string name="row">Row</string>
+    <string name="site">Site</string>
+    <string name="TermsAndCondition">I have read the Terms and Condition and fully agree with them</string>
+    <string name="tickets">Tickets</string>
+    <string name="ticket">Ticket</string>
+    <string name="forgottenDialog">Type your email address</string>
+    <string name="ok">Ok</string>
+    <string name="man">Man</string>
+    <string name="woman">Woman</string>
+    <string name="close">Close</string>
+    <string name="LoginOut">Login/Out</string>
+    <string name="events">Events</string>
+    <string name="shoppingCard">Shopping card</string>
+    <string name="HallsScheme">Halls Scheme</string>
+    <string name="AboutUs"> About us</string>
+    <string name="open">Open</string>
+    <string name="notification">The tickets shown here have now been
+reserved for you for 10 minutes.</string>
+    <string name="paymentSuccessCongrats">Congratulations!
+You’ve successfuly payed. Your PDF
+ticket have been sentto your email.
+We wish you a pleasant time
+at our . . .</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
