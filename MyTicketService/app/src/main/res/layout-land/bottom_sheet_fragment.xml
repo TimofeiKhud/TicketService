@@ -1,203 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    tools:context="com.example.ticketservicenew.presentation.eventlist.view.BottomSheetFragment">
 
     <TextView
-        android:id="@+id/title1_txt"
+        android:id="@+id/title_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="8dp"
-        android:text="Filters:"
+        android:layout_marginStart="@dimen/double_margin"
+        android:layout_marginTop="@dimen/double_margin"
+        android:layout_marginEnd="@dimen/double_margin"
+        android:text="@string/filters"
         android:textAllCaps="false"
-        android:textColor="#868685"
-        android:textSize="24sp"
+        android:textColor="@color/dark_grey_color"
+        android:textSize="@dimen/title_text_size"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+    <LinearLayout
+        android:id="@+id/type_of_event_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginTop="@dimen/double_margin"
+        android:layout_marginEnd="@dimen/margin"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/calendar_layout"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reset_filters">
+
+        <TextView
+            android:id="@+id/event_type_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_weight="1"
+            android:text="@string/type_of_event" />
+
+        <Button
+            android:id="@+id/collapse_categories_btn"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:background="@drawable/ic_keyboard_arrow_down_black_24dp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/calendar_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginTop="@dimen/double_margin"
+        android:layout_marginEnd="@dimen/double_margin"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/close_btn">
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/type_of_event_layout"
+        app:layout_constraintTop_toBottomOf="@+id/reset_filters">
 
-        <LinearLayout
-            android:id="@+id/type_of_event"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toStartOf="@+id/calendar_lyt"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_weight="1"
+            android:text="@string/calendar" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:orientation="horizontal">
+        <Button
+            android:id="@+id/collapse_calendar_btn"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:background="@drawable/ic_keyboard_arrow_down_black_24dp" />
+    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/event_type_txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_weight="1"
-                    android:text="Type of event" />
+    <ScrollView
+        android:id="@+id/calendar_scroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginTop="@dimen/double_margin"
+        android:layout_marginEnd="@dimen/double_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/types_lyout"
+        app:layout_constraintTop_toBottomOf="@+id/calendar_layout">
 
-                <Button
-                    android:id="@+id/collapse_categories_btn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/ic_keyboard_arrow_down_black_24dp" />
-            </LinearLayout>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/categories_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/concerts_check"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:layout_weight="1"
-                        android:layoutDirection="rtl"
-                        android:text="@string/concerts"
-                        android:theme="@style/CheckBoxStyle"
-                        app:layout_constraintBottom_toTopOf="@+id/exhibitions_check"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <CheckBox
-                        android:id="@+id/exhibitions_check"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_weight="1"
-                        android:layoutDirection="rtl"
-                        android:text="@string/exhibitions"
-                        android:theme="@style/CheckBoxStyle"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/concerts_check" />
-
-                    <CheckBox
-                        android:id="@+id/shows_check"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:layout_weight="1"
-                        android:layoutDirection="rtl"
-                        android:text="@string/shows"
-                        android:theme="@style/CheckBoxStyle"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/exhibitions_check" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/calendar_lyt"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/type_of_event"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_weight="1"
-                    android:text="Calendar" />
-
-                <Button
-                    android:id="@+id/collapse_calendar_btn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/ic_keyboard_arrow_down_black_24dp" />
-            </LinearLayout>
-
-            <ScrollView
-                android:id="@+id/calendar_scroll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp">
-
-                <com.squareup.timessquare.CalendarPickerView
-                    android:id="@+id/calendar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone" />
-            </ScrollView>
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.squareup.timessquare.CalendarPickerView
+            android:id="@+id/calendar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </ScrollView>
 
     <ImageButton
         android:id="@+id/reset_filters"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:background="#FFFFFF"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_marginTop="@dimen/double_margin"
+        android:layout_marginEnd="@dimen/margin"
+        android:background="@color/white_color"
         app:layout_constraintEnd_toStartOf="@+id/close_btn"
-        app:layout_constraintTop_toBottomOf="@+id/title1_txt"
+        app:layout_constraintTop_toBottomOf="@+id/title_txt"
         app:srcCompat="@android:drawable/ic_menu_revert" />
 
     <ImageButton
         android:id="@+id/close_btn"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="#FFFFFF"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_marginTop="@dimen/double_margin"
+        android:layout_marginEnd="@dimen/double_margin"
+        android:background="@color/white_color"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title1_txt"
+        app:layout_constraintTop_toBottomOf="@+id/title_txt"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
+    <LinearLayout
+        android:id="@+id/types_lyout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/double_margin"
+        android:layout_marginTop="@dimen/double_margin"
+        android:layout_marginEnd="@dimen/margin"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/calendar_scroll"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/type_of_event_layout"
+        tools:visibility="visible">
+
+        <CheckBox
+            android:id="@+id/concerts_check"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginRight="@dimen/margin"
+            android:layout_weight="1"
+            android:layoutDirection="rtl"
+            android:text="@string/concerts"
+            android:theme="@style/CheckBoxStyle"
+            app:layout_constraintBottom_toTopOf="@+id/exhibitions_check"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/exhibitions_check"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginTop="@dimen/double_margin"
+            android:layout_marginRight="@dimen/margin"
+            android:layout_weight="1"
+            android:layoutDirection="rtl"
+            android:text="@string/exhibitions"
+            android:theme="@style/CheckBoxStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/concerts_check" />
+
+        <CheckBox
+            android:id="@+id/shows_check"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="@dimen/margin"
+            android:layout_marginBottom="16dp"
+            android:layout_weight="1"
+            android:layoutDirection="rtl"
+            android:text="@string/shows"
+            android:theme="@style/CheckBoxStyle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/exhibitions_check" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

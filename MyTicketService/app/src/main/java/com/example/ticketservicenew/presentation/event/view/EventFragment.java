@@ -101,7 +101,7 @@ public class EventFragment extends MvpAppCompatFragment implements EventView {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(eventInfo -> {
                     ticketsAvailable.setText("Tickets available - " + eventInfo.getRestTick());
-                    priceRange.setText("Price range: " + eventInfo.getMinPrice() + " EUR - " + eventInfo.getMaxPrice() + " EUR");
+                    priceRange.setText("Price range: " + eventInfo.getMinPrice() + " € - " + eventInfo.getMaxPrice() + " €");
                 });
         return v;
     }

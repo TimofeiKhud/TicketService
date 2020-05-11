@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="middle_margin">16dp</dimen>
+    <dimen name="margin">8dp</dimen>
+    <dimen name="double_margin">16dp</dimen>
+    <dimen name="triple_margin">24dp</dimen>
+
+    <dimen name="title_text_size">30sp</dimen>
+    <dimen name="common_text_size">20sp</dimen>
+
+    <dimen name="button_label_text_size">30sp</dimen>
+    <dimen name="button_size">32dp</dimen>
+    <dimen name="nav_button_width">250dp</dimen>
+
+    <dimen name="divider_height">8dp</dimen>
 </resources>

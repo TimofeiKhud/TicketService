@@ -4,7 +4,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context="com.example.ticketservicenew.presentation.auth.login.view.LoginFragment">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -13,7 +14,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="@string/alreadyCustomer"
+                android:text="@string/already_customer"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -80,14 +81,14 @@
                     android:layout_weight="1"
                     android:clickable="true"
                     android:text="@string/forgottenPassword"
-                    android:textColor="@color/orangeBtnColor" />
+                    android:textColor="@color/orange_color" />
 
                 <CheckBox
                     android:id="@+id/show_pass_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="show password" />
+                    android:text="@string/show_password" />
             </LinearLayout>
 
             <Button
@@ -97,9 +98,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/orangeBtnColor"
+                android:backgroundTint="@color/orange_color"
                 android:text="@string/Login"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/white_color"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -112,7 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
-                android:text="@string/newCustomer"
+                android:text="@string/new_customer"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -126,9 +127,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/orangeBtnColor"
-                android:text="@string/Register"
-                android:textColor="@color/colorWhite"
+                android:backgroundTint="@color/orange_color"
+                android:text="@string/register"
+                android:textColor="@color/white_color"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -144,9 +145,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/orangeBtnColor"
-                android:text="@string/LoginWithCode"
-                android:textColor="@color/colorWhite"
+                android:backgroundTint="@color/orange_color"
+                android:text="@string/login_with_code"
+                android:textColor="@color/white_color"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -172,9 +173,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/orangeBtnColor"
+                android:backgroundTint="@color/orange_color"
                 android:text="Logout"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/white_color"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"

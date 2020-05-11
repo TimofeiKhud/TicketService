@@ -12,7 +12,8 @@
         app:layout_constraintEnd_toStartOf="@+id/seat_txt"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/row" />
 
     <TextView
         android:id="@+id/seat_txt"
@@ -21,7 +22,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/row_txt"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Seats" />
 
     <View
         android:id="@+id/divider2"

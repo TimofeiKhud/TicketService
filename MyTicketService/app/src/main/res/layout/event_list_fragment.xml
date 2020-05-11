@@ -7,8 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-
-        tools:context=".presentation.eventlist.view.EventListFragment">
+        tools:context="com.example.ticketservicenew.presentation.eventlist.view.EventListFragment">
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -31,20 +30,20 @@
                 android:layout_marginBottom="1dp" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/filter_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:text="Filters:"
-            android:textAllCaps="false"
-            android:textColor="#868685"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:onClick="@{view::showFilters}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:id="@+id/filter_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white_color"
+        android:onClick="@{view::showFilters}"
+        android:text="@string/filters"
+        android:textAllCaps="false"
+        android:textColor="@color/dark_grey_color"
+        android:textSize="@dimen/button_label_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

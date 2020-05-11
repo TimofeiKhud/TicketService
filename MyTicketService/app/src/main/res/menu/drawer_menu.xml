@@ -4,15 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 <group android:checkableBehavior="single">
-    <item android:id="@+id/nav_auth"
-        android:title="Login/Out" />
-    <item android:id="@+id/nav_events"
-        android:title="Events"/>
-    <item android:id="@+id/nav_shopping_card"
-        android:title="Shopping Card"/>
-    <item android:id="@+id/nav_halls_scheme"
-        android:title="Halls scheme"/>
-    <item android:id="@+id/nav_about_us"
-        android:title="About us"/>
+    <item
+        android:id="@+id/nav_auth"
+        android:title="@string/login_out" />
+    <item
+        android:id="@+id/nav_events"
+        android:title="@string/events" />
+    <item
+        android:id="@+id/nav_shopping_card"
+        android:title="@string/shopping_cart" />
+    <item
+        android:id="@+id/nav_halls_scheme"
+        android:title="@string/halls_scheme" />
+    <item
+        android:id="@+id/nav_about_us"
+        android:title="@string/about_us" />
 </group>
 </menu>

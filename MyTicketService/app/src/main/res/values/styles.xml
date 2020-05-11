@@ -9,6 +9,14 @@
         <item name="android:editTextColor">#868685</item>
     </style>
 
+    <!-- Basic styling for the buttons. -->
+    <style name="NavButtons" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@color/white_color</item>
+        <item name="colorAccent">@color/orange_color</item>
+        <item name="colorControlHighlight">@color/orange_color</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="CheckBoxStyle" parent="android:Widget.CompoundButton.CheckBox">
         <item name="colorAccent">#ffc800</item>
         <item name="android:textColorSecondary">#868685</item>

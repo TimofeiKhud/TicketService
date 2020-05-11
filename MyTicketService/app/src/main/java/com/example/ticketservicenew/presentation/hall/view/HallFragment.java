@@ -109,21 +109,9 @@ public class HallFragment extends MvpAppCompatFragment implements HallView{
     }
 
     @OnClick(R.id.to_the_cart_btn)
-    void onPay(){
+    void onBookTickets(){
         Log.d(TAG, "on Pay");
         presenter.bookTickets(adapter.getSeats());
-
-//        if (adapter.getSeats().isEmpty()){
-//            showNotificationToast("Please select seats for booking");
-//            return;
-//        }
-//        showProgress();
-//        disposable = presenter.bookTickets(adapter.getSeats())
-//        .subscribeOn(Schedulers.io())
-//        .observeOn(AndroidSchedulers.mainThread())
-//        .subscribe((Void) -> presenter.onBookingSuccess(/*interactor.getEventId(), seats*/adapter.getSeats()), error-> presenter.onBookingError(error.getMessage()));
-//        .doOnComplete(() -> presenter.onBookingSuccess(/*interactor.getEventId(), seats*/adapter.getSeats()))
-//        .doOnError(error-> presenter.onBookingError(error.getMessage()));
     }
 
     @Override

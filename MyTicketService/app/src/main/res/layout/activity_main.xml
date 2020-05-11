@@ -17,8 +17,8 @@
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/white"
-            app:titleTextColor="@color/menuBackground"
+            android:background="@color/white_color"
+            app:titleTextColor="@color/dark_grey_color"
             android:id="@+id/toolbar"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -36,7 +36,7 @@
         android:id="@+id/nav_view"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_menu"
-        android:background="@color/menuBackground"
-        app:itemTextColor="@color/white"/>
+        android:background="@color/dark_grey_color"
+        app:itemTextColor="@color/white_color"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

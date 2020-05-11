@@ -3,15 +3,15 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="calendar_selected_day_bg">#ffc800</color>
+
+    <color name="dark_grey_color">#868685</color>
+    <color name="white_color">#FFFFFF</color>
+    <color name="orange_color">#FFC800</color>
+    <color name="red_color">#FF0000</color>
+    <color name="light_grey_color">#f3f4f4</color>
+    <color name="black_color">#000000</color>
+
     <color name="calendar_selected_range_bg">#90FFC800</color>
     <color name="calendar_highlighted_day_bg">#61FFC800</color>
-    <color name="menuBackground">#868685</color>
-    <color name="white">#FFFFFF</color>
-    <color name="orangeBtnColor">#FFC800</color>
-    <color name="colorWhite">#FFFFFF</color>
-    <color name="colorRed">#FF0000</color>
-    <color name="background">#DBDBDB</color>
     <color name="backgroundTranslucent">#80EEEEEE</color>
-    <color name="blackText">#000000</color>
 </resources>

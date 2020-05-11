@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,8 +54,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Bo
     Button collapseCalendarBtn;
     @BindView(R.id.collapse_categories_btn)
     Button collapseCatBtn;
-    @BindView(R.id.categories_card)
-    CardView categoriesCard;
+    @BindView(R.id.types_layout)
+    LinearLayout types;
     @BindView(R.id.reset_filters)
     ImageButton resetFiltersBtn;
     @BindView(R.id.close_btn)
@@ -234,7 +235,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Bo
         if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && isCalendarShown && isTypeSelectShown) {
             isTypeSelectShown = false;
             collapseCatBtn.setBackground(getResources().getDrawable(isTypeSelectShown ? R.drawable.ic_keyboard_arrow_up_black_24dp : R.drawable.ic_keyboard_arrow_down_black_24dp));
-            categoriesCard.setVisibility(isTypeSelectShown ? View.VISIBLE : View.GONE);
+            types.setVisibility(isTypeSelectShown ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -243,7 +244,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Bo
         int orientation = getTargetFragment().getActivity().getResources().getConfiguration().orientation;
         isTypeSelectShown = !isTypeSelectShown;
         collapseCatBtn.setBackground(getResources().getDrawable(isTypeSelectShown ? R.drawable.ic_keyboard_arrow_up_black_24dp : R.drawable.ic_keyboard_arrow_down_black_24dp));
-        categoriesCard.setVisibility(isTypeSelectShown ? View.VISIBLE : View.GONE);
+        types.setVisibility(isTypeSelectShown ? View.VISIBLE : View.GONE);
         if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && isCalendarShown && isTypeSelectShown) {
             isCalendarShown = false;
             collapseCalendarBtn.setBackground(getResources().getDrawable(isCalendarShown ? R.drawable.ic_keyboard_arrow_up_black_24dp : R.drawable.ic_keyboard_arrow_down_black_24dp));

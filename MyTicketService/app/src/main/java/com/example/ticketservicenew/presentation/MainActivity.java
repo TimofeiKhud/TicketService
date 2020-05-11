@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import com.example.ticketservicenew.R;
 import com.example.ticketservicenew.presentation.auth.login.view.LoginFragment;
 import com.example.ticketservicenew.presentation.eventlist.view.EventListFragment;
-import com.example.ticketservicenew.presentation.auth.registration.view.RegFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,7 +31,7 @@ DrawerLayout drawerLayout;
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final Drawable upArrow = getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp);
-        upArrow.setColorFilter(getResources().getColor(R.color.menuBackground), PorterDuff.Mode.SRC_ATOP);
+        upArrow.setColorFilter(getResources().getColor(R.color.dark_grey_color), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
         NavigationView navigationView = findViewById(R.id.nav_view);

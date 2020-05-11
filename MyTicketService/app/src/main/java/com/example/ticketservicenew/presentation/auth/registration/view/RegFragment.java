@@ -25,10 +25,7 @@ import com.example.ticketservicenew.R;
 import com.example.ticketservicenew.presentation.auth.AuthView;
 import com.example.ticketservicenew.presentation.auth.registration.presenter.RegPresenter;
 
-import java.util.List;
-
 import butterknife.BindView;
-import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
@@ -44,7 +41,7 @@ public class RegFragment extends MvpAppCompatFragment implements AuthView{
     EditText passwordEdit;
     @BindView(R.id.reg_btn)
     Button regBtn;
-    @BindView(R.id.back_btn)
+    @BindView(R.id.close_btn)
     Button backBtn;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -129,9 +126,9 @@ public class RegFragment extends MvpAppCompatFragment implements AuthView{
         @Override
         public void showError(String error) {
             errorDialog = new AlertDialog.Builder(requireContext())
-                    .setTitle("Error")
+                    .setTitle(requireContext().getString(R.string.error))
                     .setMessage(error)
-                    .setPositiveButton("OK", (dialog, which) -> presenter.onDialogClicked())
+                    .setPositiveButton(requireContext().getString(R.string.ok), (dialog, which) -> presenter.onDialogClicked())
                     .setCancelable(false)
                     .create();
             errorDialog.show();
