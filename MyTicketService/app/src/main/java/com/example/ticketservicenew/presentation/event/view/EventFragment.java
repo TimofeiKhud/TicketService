@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,8 +42,6 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class EventFragment extends MvpAppCompatFragment implements EventView {
     public static final String TAG = EventFragment.class.getName();
-        private Event event;
-        private EventInfo info;
         Unbinder unbinder;
         Disposable disposable;
 
@@ -70,11 +69,6 @@ public class EventFragment extends MvpAppCompatFragment implements EventView {
     @InjectPresenter
     EventPresenter presenter;
 
-
-        public EventFragment(Event event) {
-            this.event = event;
-        }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,6 +78,9 @@ public class EventFragment extends MvpAppCompatFragment implements EventView {
         View v = inflater.inflate(R.layout.event_details, container, false);
 
         unbinder = ButterKnife.bind(this, v);
+
+        EventFragmentArgs args = EventFragmentArgs.fromBundle(requireArguments());
+        presenter.onShowEvent(args.getEventId());
         eventTitle.setText(event.getArtist());
         eventName.setText(event.getEventName());
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM", Locale.US);
@@ -93,15 +90,15 @@ public class EventFragment extends MvpAppCompatFragment implements EventView {
         }
         description.setText(event.getDescription());
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        date.setText("Date: " + dateFormat.format(event.getEventStart()));
+        date.setText(String.format("Date: %s", dateFormat.format(event.getEventStart())));
         time.setText(timeFormat.format(event.getEventStart()));
 
         Single<EventInfo> single = presenter.getEventInfo(event.getEventId());
         disposable = single.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(eventInfo -> {
-                    ticketsAvailable.setText("Tickets available - " + eventInfo.getRestTick());
-                    priceRange.setText("Price range: " + eventInfo.getMinPrice() + " € - " + eventInfo.getMaxPrice() + " €");
+                    ticketsAvailable.setText(String.format("%s%d", getString(R.string.tickets_available), eventInfo.getRestTick()));
+                    priceRange.setText(String.format("Price range: %s € - %s €", eventInfo.getMinPrice(), eventInfo.getMaxPrice()));
                 });
         return v;
     }
@@ -128,14 +125,15 @@ public class EventFragment extends MvpAppCompatFragment implements EventView {
 
     @OnClick(R.id.buy_tickets_btn)
     void onBuyTicketsClick(){
-        HallFragment hallFragment = new HallFragment();
-        Bundle bundle = new Bundle();
-        hallFragment.setArguments(bundle);
-        bundle.putString("Event id", event.getEventId());
-            getParentFragmentManager().beginTransaction()
-               .replace(R.id.fragment_container, hallFragment)
-               .addToBackStack(TAG)
-               .commit();
+//        HallFragment hallFragment = new HallFragment();
+//        Bundle bundle = new Bundle();
+//        hallFragment.setArguments(bundle);
+//        bundle.putString("Event id", event.getEventId());
+//            getParentFragmentManager().beginTransaction()
+//               .replace(R.id.fragment_container, hallFragment)
+//               .addToBackStack(TAG)
+//               .commit();
+        Navigation.findNavController(getView()).navigate(EventFragmentDirections.actionEventFragmentToHallFragment(event.getEventId()));
     }
 
     @Override

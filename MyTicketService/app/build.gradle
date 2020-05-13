@@ -85,4 +85,7 @@ dependencies {
 
     //PayPal
     implementation 'com.paypal.sdk:paypal-android-sdk:2.16.0'
+
+    //Timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 }

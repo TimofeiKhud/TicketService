@@ -23,6 +23,8 @@ import com.example.ticketservicenew.di.paymentsuccess.PaymentSuccessModule;
 import com.example.ticketservicenew.di.shoppingcart.ShoppingCartComponent;
 import com.example.ticketservicenew.di.shoppingcart.ShoppingCartModule;
 
+import timber.log.Timber;
+
 public class App extends Application {
     private static App app;
 private AppComponent appComponent;
@@ -45,6 +47,7 @@ private PaymentSuccessComponent paymentSuccessComponent;
 
     @Override
     public void onCreate() {
+        Timber.plant(new Timber.DebugTree());
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();

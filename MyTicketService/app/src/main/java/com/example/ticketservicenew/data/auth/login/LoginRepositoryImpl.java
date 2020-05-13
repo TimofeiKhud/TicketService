@@ -29,6 +29,7 @@ public class LoginRepositoryImpl implements LoginRepository{
     public void onLogout() {
         if(storeProvider.getToken() != null){
             storeProvider.clearToken();
+            storeProvider.clearUserName();
         }
     }
 

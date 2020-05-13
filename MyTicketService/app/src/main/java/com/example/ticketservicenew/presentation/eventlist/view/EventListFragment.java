@@ -3,6 +3,7 @@ package com.example.ticketservicenew.presentation.eventlist.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.navigation.Navigation;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -238,10 +240,11 @@ public class EventListFragment extends MvpAppCompatFragment implements EventList
     }
 
     @Override
-    public void showEvent(Event event) {
-        getParentFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new EventFragment(event))
-                .addToBackStack(TAG)
-                .commit();
+    public void showEvent(String eventId) {
+        Navigation.findNavController(getView()).navigate(EventListFragmentDirections.actionEventListFragmentToEventFragment(eventId));
+//        getParentFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_container, new EventFragment(event))
+//                .addToBackStack(TAG)
+//                .commit();
     }
 }

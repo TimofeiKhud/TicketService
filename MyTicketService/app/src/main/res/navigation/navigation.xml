@@ -62,7 +62,11 @@
             app:destination="@id/eventListFragment" />
         <action
             android:id="@+id/action_eventFragment_to_hallFragment"
-            app:destination="@id/hallFragment" />
+            app:destination="@id/hallFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_right" />
         <argument
             android:name="eventId"
             app:argType="string" />
@@ -77,7 +81,14 @@
             app:destination="@id/eventFragment" />
         <action
             android:id="@+id/action_hallFragment_to_shoppingCartFragment"
-            app:destination="@id/shoppingCartFragment" />
+            app:destination="@id/shoppingCartFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_in_right" />
+        <argument
+            android:name="eventId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/shoppingCartFragment"

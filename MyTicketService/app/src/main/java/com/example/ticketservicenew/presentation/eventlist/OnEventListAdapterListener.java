@@ -9,6 +9,6 @@ import java.util.List;
  * */
 public interface OnEventListAdapterListener {
 
-        void showEvent(Event event);
+        void showEvent(String eventId);
 
 }

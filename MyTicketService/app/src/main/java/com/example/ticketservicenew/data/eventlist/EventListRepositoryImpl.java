@@ -27,15 +27,12 @@ public class EventListRepositoryImpl implements EventListRepository{
 
     //API
     private Api api;
-    //private int pageNumber;
-    private int pageSize;
-    //private boolean lastPageLoaded;
 
-    //switcher between 2 methods - current or by date, by default gets current events
+    private int pageSize;
+
     private List<EventOutputDto> allEvents;
     //events filtered by category and date(if filters set)
     private List<EventOutputDto> filteredEvents;
-    //private boolean loadingInProgress;
     //Category filters array - if empty -> all categs
     private List<Integer> categFilters;
     //in case dates in date range were changed
@@ -52,8 +49,6 @@ public class EventListRepositoryImpl implements EventListRepository{
         allEvents = new ArrayList<>();
         filteredEvents = new ArrayList<>();
         searchString = "";
-
-        //pageNumber = 0;
         pageSize = 5;
     }
 
@@ -72,11 +67,10 @@ public class EventListRepositoryImpl implements EventListRepository{
 
     @Override
     public Single<List<Event>> getEvents(int pageNumber, int pageSize) {
-        //loadingInProgress = true;
         Log.d(TAG, "getCurrentEvents: start");
         if(searchStringChanged){
             Log.d(TAG, "get events (filtered events number): " + filteredEvents.size());
-            if(pageNumber > 0){ /////////////////////
+            if(pageNumber > 0){
                 searchStringChanged = false;
                 return Single.just(new ArrayList<>());
             }
@@ -107,11 +101,7 @@ public class EventListRepositoryImpl implements EventListRepository{
         Log.d(TAG, "onSearchTextChanged(search string text): " + newText);
         searchString = newText;
         searchStringChanged = true;
-        //lastPageLoaded = false;
-        //Log.d(TAG, "onSearchTextChanged (filtered events number): " + filteredEvents.size());
         listener.onFiltersChanged();
-        //Log.d(TAG, "onSearchTextChanged (filtered events number): " + filteredEvents.size());
-        //dataSource.invalidate();
     }
 
     @Override
@@ -127,16 +117,12 @@ public class EventListRepositoryImpl implements EventListRepository{
             dateFilter = dateRange;
             categFilters = categories;
         }
-        //lastPageLoaded = false;
         listener.onFiltersChanged();
-        //dataSource.invalidate();
         return true;
     }
 
     private Single<List<EventOutputDto>> onGetEventsSuccess(Response<List<EventOutputDto>> listResponse) throws IOException {
-        //Log.d(TAG, "onGetEventsSuccess (response code): "+listResponse.code());
         if (listResponse.isSuccessful()){
-            //Log.d(TAG, "onGetEventsSuccess: "+listResponse.body());
             List<EventOutputDto> eventsToAdd = listResponse.body();
             if (eventsToAdd == null){
                 throw new RuntimeException("Empty list");
@@ -144,13 +130,8 @@ public class EventListRepositoryImpl implements EventListRepository{
             for(EventOutputDto dto : eventsToAdd){
                 Log.d(TAG, "onGetEventsSuccess: "+ dto.getArtist());
             }
-            /*if (eventsToAdd.size() < pageSize){
-                lastPageLoaded = true;
-            }*/
             allEvents.addAll(eventsToAdd);
             filteredEvents.addAll(eventsToAdd);
-            //Log.d(TAG, "onGetEventsSuccess (filtered events num): "+ filteredEvents.size());
-            //pageNumber++;
             return Single.just(eventsToAdd)/*.flatMap(this::getFilteredByCategory)/*.flatMap(this::getSearchedList)*/;
         }else {
             Log.d(TAG, "onGetEventsSuccess: "+ listResponse.errorBody().string());
@@ -159,10 +140,7 @@ public class EventListRepositoryImpl implements EventListRepository{
     }
 
     private Single<List<EventOutputDto>> filterEvents(List<EventOutputDto> listForFilter){
-        //Log.d(TAG, "filter events (filtered events number before): " + filteredEvents.size());
-        //filteredEvents.clear();
         if(categFilters.size() == 0){
-            //filteredEvents.addAll(listForFilter);
             return Single.just(listForFilter);
         }else{
             List<EventOutputDto> res = new ArrayList();
@@ -174,8 +152,6 @@ public class EventListRepositoryImpl implements EventListRepository{
             }
             return Single.just(res);
         }
-//        Log.d(TAG, "filter events (filtered events number after): " + filteredEvents.size());
-//        return Single.just(filteredEvents);
     }
 
     private Single<List<EventOutputDto>> searchEvents(List<EventOutputDto> listForSearch){
@@ -219,7 +195,6 @@ public class EventListRepositoryImpl implements EventListRepository{
                     dto.getImages(),
                     dto.getPriceRanges().toString(),
                     dto.getManagers().toString());
-            //Log.d(TAG, " loading event no. " + i++ + ": " + dto.toString());
             events.add(event);
         }
         return events;

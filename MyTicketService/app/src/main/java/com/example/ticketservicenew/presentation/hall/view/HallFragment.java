@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,6 +44,7 @@ import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 
 /**
@@ -129,14 +131,11 @@ public class HallFragment extends MvpAppCompatFragment implements HallView{
             Log.d(TAG, "dispose booking disposable");
             bookingDisposable.dispose();
         }
-
         unbinder.unbind();
-
     }
 
-
     private void init(){
-        Log.d(TAG, "init");
+        Timber.d("init");
         String id;
         if(getArguments() == null || !getArguments().containsKey("Event id")){
             if(presenter.getId() == null || presenter.getId().isEmpty()){
@@ -208,31 +207,33 @@ public class HallFragment extends MvpAppCompatFragment implements HallView{
 //        if(getArguments() == null || getArguments().getString("Event id") == null){
 //            return;
 //        }
-        Bundle bundle = new Bundle();
-        double totalPrice = 0;
-        for(Seat seat : seats){
-            totalPrice += seat.getPrice();
-            ArrayList<String> seatsList = bundle.keySet().contains(seat.getRow()) && bundle.getStringArrayList(seat.getRow()) != null ?
-                    bundle.getStringArrayList(seat.getRow()) : new ArrayList<>();
-            seatsList.add(seat.getSeatNum());
-            bundle.putStringArrayList(seat.getRow(), seatsList);
-        }
-        for(int i = 0; i < 30; i++){
-            if(bundle.keySet().contains(Integer.toString(i))){
-                for(String seat : bundle.getStringArrayList(String.valueOf(i))){
-                    Log.d(TAG, "seat: " + seat + "row: " + i);
-                }
-            }
-        }
-        bundle.putString("Event id", getArguments().getString("Event id"));
-        bundle.putDouble("Total price", totalPrice);
+        //Bundle bundle = new Bundle();
+        //double totalPrice = 0;
+//        for(Seat seat : seats){
+//            //totalPrice += seat.getPrice();
+//            ArrayList<String> seatsList = bundle.keySet().contains(seat.getRow()) && bundle.getStringArrayList(seat.getRow()) != null ?
+//                    bundle.getStringArrayList(seat.getRow()) : new ArrayList<>();
+//            seatsList.add(seat.getSeatNum());
+//            bundle.putStringArrayList(seat.getRow(), seatsList);
+//        }
+//        for(int i = 0; i < 30; i++){
+//            if(bundle.keySet().contains(Integer.toString(i))){
+//                for(String seat : bundle.getStringArrayList(String.valueOf(i))){
+//                    Log.d(TAG, "seat: " + seat + "row: " + i);
+//                    Timber.d("seat: " + seat + "row: " + i);
+//                }
+//            }
+//        }
+        //bundle.putString("Event id", getArguments().getString("Event id"));
+        //bundle.putDouble("Total price", totalPrice);
+        Navigation.findNavController(getView()).navigate(HallFragmentDirections.actionHallFragmentToShoppingCartFragment());
 
-        ShoppingCartFragment shoppingCartFragment = new ShoppingCartFragment();
-        shoppingCartFragment.setArguments(bundle);
-        getParentFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, shoppingCartFragment)
-                .addToBackStack(TAG)
-                .commit();
+//        ShoppingCartFragment shoppingCartFragment = new ShoppingCartFragment();
+//        shoppingCartFragment.setArguments(bundle);
+//        getParentFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_container, shoppingCartFragment)
+//                .addToBackStack(TAG)
+//                .commit();
     }
 
     @Override

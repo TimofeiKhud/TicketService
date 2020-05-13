@@ -170,10 +170,10 @@ public class PayingFragment extends MvpAppCompatFragment implements PayingView {
 
         PaymentSuccessFragment paymentSuccessFragment = new PaymentSuccessFragment();
         paymentSuccessFragment.setArguments(bundle);
-        getParentFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, paymentSuccessFragment)
-                .addToBackStack(TAG)
-                .commit();
+//        getParentFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_container, paymentSuccessFragment)
+//                .addToBackStack(TAG)
+//                .commit();
     }
 
     @Override

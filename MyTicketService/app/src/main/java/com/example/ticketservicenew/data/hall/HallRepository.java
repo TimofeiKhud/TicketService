@@ -11,7 +11,7 @@ import io.reactivex.Single;
 
 public interface HallRepository {
     Single<HallStructure> getHallStructure(String id, boolean isShort);
-    Completable onSeatsBooked(Map<String, List<String>> seats);
-    //Single<Void> onSeatsBooked(Map<String, List<String>> seats);
+    Completable onSeatsBooking(List<Seat> seats);
     String getEventId();
+    Map<String, List<String>> getBookedSeats(String eventId);
 }

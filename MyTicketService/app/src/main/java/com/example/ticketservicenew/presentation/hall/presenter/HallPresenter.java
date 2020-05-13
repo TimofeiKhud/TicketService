@@ -16,13 +16,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-
-import static com.example.ticketservicenew.presentation.hall.view.HallFragment.TAG;
 
 @InjectViewState
 public class HallPresenter extends MvpPresenter<HallView> {
@@ -46,10 +43,11 @@ public class HallPresenter extends MvpPresenter<HallView> {
             return;
         }
         getViewState().showProgress();
-        bookingDisposable = interactor.onSeatsBooked(seats)
+        bookingDisposable = interactor.onSeatsBooking(seats)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(() -> {Log.d(TAG, "booking complete");
+                    interactor.onBookingSuccess(seats);
                     onBookingSuccess(interactor.getEventId(), seats);})
                 .doOnError(error-> {onBookingError(TAG + "booking error"); })
                 .subscribe();

@@ -28,7 +28,7 @@ Disposable disposable;
         App.get().plusShoppingCart(new ShoppingCartModule()).inject(this);
     }
 
-    public void setBookedSeats(String eventId, List<Seat> bookedSeats){
+    public void onShowBookedSeats(String eventId, List<Seat> bookedSeats){
         if(eventId == null){
             return;
         }

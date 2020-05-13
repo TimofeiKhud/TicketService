@@ -119,10 +119,10 @@ public class LoginFragment extends MvpAppCompatFragment implements AuthView{
     }
 
     private void navigateToRegFragment(){
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container,new RegFragment())
-                .commit();
+//        getActivity().getSupportFragmentManager()
+//                .beginTransaction()
+//                .replace(R.id.fragment_container,new RegFragment())
+//                .commit();
     }
 
     @Override

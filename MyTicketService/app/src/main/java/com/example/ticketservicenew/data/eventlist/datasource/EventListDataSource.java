@@ -20,7 +20,6 @@ public class EventListDataSource extends PositionalDataSource<Event> implements 
     private static final String TAG = EventListDataSource.class.getName();
 private EventListRepository repository;
 private int sourceIndex;
-//private MutableLiveData<String> progressLiveStatus;
 private CompositeDisposable compositeDisposable;
 
 
@@ -28,13 +27,7 @@ private CompositeDisposable compositeDisposable;
         this.repository = repository;
         repository.setOnFiltersChangedListener(this);
         this.compositeDisposable = disposable;
-        //repository.setDataSource(this);
-        //progressLiveStatus = new MutableLiveData<>();
     }
-
-//    public MutableLiveData<String> getProgressLiveStatus() {
-//        return progressLiveStatus;
-//    }
 
     @SuppressLint("CheckResult")
     @Override
@@ -45,10 +38,8 @@ private CompositeDisposable compositeDisposable;
                 .doOnSubscribe(disposable ->
                 {
                     compositeDisposable.add(disposable);
-                    //progressLiveStatus.postValue(Constant.LOADING);
                 })
                 .subscribe(events -> {
-                            //progressLiveStatus.postValue(Constant.LOADED);
                     for(Event event : events){
                         Log.d(TAG, "load initial: " + event.getArtist());
                     }
@@ -74,7 +65,6 @@ private CompositeDisposable compositeDisposable;
                             for(Event event : events){
                                 Log.d(TAG, "load range: " + event.getArtist());
                             }
-                            //progressLiveStatus.postValue(Constant.LOADED);
                             callback.onResult(events);
                         },
                         throwable ->

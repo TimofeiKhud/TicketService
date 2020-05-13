@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -29,7 +28,6 @@ import com.example.ticketservicenew.presentation.shoppingcart.presenter.Shopping
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -94,7 +92,7 @@ public class ShoppingCartFragment extends MvpAppCompatFragment implements Shoppi
                 }
             }
         }
-        presenter.setBookedSeats(getArguments().getString("Event id"), bookedSeats);
+        presenter.onShowBookedSeats(getArguments().getString("Event id"), bookedSeats);
 
         return  v;
     }
@@ -169,10 +167,10 @@ public class ShoppingCartFragment extends MvpAppCompatFragment implements Shoppi
 
         PayingFragment payingFragment = new PayingFragment();
         payingFragment.setArguments(bundle);
-        getParentFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, payingFragment)
-                .addToBackStack(TAG)
-                .commit();
+//        getParentFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_container, payingFragment)
+//                .addToBackStack(TAG)
+//                .commit();
     }
 
     @Override

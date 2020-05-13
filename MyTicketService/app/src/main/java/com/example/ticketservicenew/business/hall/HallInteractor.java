@@ -11,6 +11,7 @@ import io.reactivex.Single;
 
 public interface HallInteractor {
     Single<HallStructure> getHallStructure(String id, boolean isShort);
-  Completable onSeatsBooked(List<Seat> seats);
+    Completable onSeatsBooking(List<Seat> seats);
     String getEventId();
+    void onBookingSuccess(List<Seat> seats);
 }

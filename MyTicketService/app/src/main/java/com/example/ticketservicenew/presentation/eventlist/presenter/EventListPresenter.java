@@ -30,7 +30,6 @@ public class EventListPresenter extends MvpPresenter<EventListView> {
     private final static String TAG = "EventListPresenter";
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     Observable<PagedList<Event>> pagedListObservable;
-
     PagedList.Config pagedListConfig;
 
     @Inject

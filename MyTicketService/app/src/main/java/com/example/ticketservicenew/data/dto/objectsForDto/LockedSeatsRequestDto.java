@@ -1,6 +1,6 @@
 package com.example.ticketservicenew.data.dto.objectsForDto;
 
-import com.example.ticketservicenew.business.model.LockedSeats;
+
 
 import java.util.List;
 
