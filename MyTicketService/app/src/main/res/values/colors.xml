@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#f3f4f4</color>
+    <color name="colorAccent">#FFC800</color>
 
     <color name="dark_grey_color">#868685</color>
     <color name="white_color">#FFFFFF</color>
@@ -14,4 +14,5 @@
     <color name="calendar_selected_range_bg">#90FFC800</color>
     <color name="calendar_highlighted_day_bg">#61FFC800</color>
     <color name="backgroundTranslucent">#80EEEEEE</color>
+    <color name="blue_color">#369BF4</color>
 </resources>

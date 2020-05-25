@@ -3,8 +3,12 @@ package com.example.ticketservicenew.data.paying;
 
 import android.util.Log;
 
+import com.example.ticketservicenew.business.model.BookingInfo;
+import com.example.ticketservicenew.business.model.Event;
+import com.example.ticketservicenew.business.model.LockedSeats;
 import com.example.ticketservicenew.business.model.Seat;
 import com.example.ticketservicenew.data.dto.EventBookingDto;
+import com.example.ticketservicenew.data.provider.store.StoreProvider;
 import com.example.ticketservicenew.data.provider.web.Api;
 
 import java.io.IOException;
@@ -12,35 +16,42 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import retrofit2.Response;
 
 public class PayingRepositoryImpl implements PayingRepository{
     public static final String TAG = PayingRepositoryImpl.class.getName();
     private Api api;
+    private StoreProvider storeProvider;
 
     String eventId;
-    List<Seat> bookedSeats;
+    //List<LockedSeats> lockedSeats;
+    BookingInfo info;
 
-    public PayingRepositoryImpl(Api api) {
+    public PayingRepositoryImpl(Api api, StoreProvider storeProvider) {
         this.api = api;
+        this.storeProvider = storeProvider;
     }
 
-    @Override
-    public void saveBookedSeats(List<Seat> seats) {
-        this.bookedSeats = seats;
-    }
+//    @Override
+//    public void saveBookedSeats(List<Seat> seats) {
+//        this.bookedSeats = seats;
+//    }
 
     @Override
-    public List<Seat> getBookedSeats() {
-        return bookedSeats;
+    public List<LockedSeats> getBookedSeats() {
+        //return lockedSeats;
+        return info.getLockedSeats();
     }
 
-    @Override
-    public void saveId(String eventId) {
-        this.eventId = eventId;
-    }
+//    @Override
+//    public void saveId(String eventId) {
+//        this.eventId = eventId;
+//    }
 
     @Override
     public String getEventId() {
@@ -48,8 +59,41 @@ public class PayingRepositoryImpl implements PayingRepository{
     }
 
     @Override
-    public void sellTickets() {
+    public Completable sellTickets() {
+        EventBookingDto request = mapSeatsListToDto(info.getLockedSeats());
+        return Completable.fromSingle(api.sellTickets(request));
+    }
 
+    private EventBookingDto mapSeatsListToDto(List<LockedSeats> lockedSeats) {
+            Map<String, List<String>> bookedSeats = new TreeMap<>();
+            for(LockedSeats seats : lockedSeats){
+                bookedSeats.put(seats.getRow(), seats.getSeats());
+            }
+            List<Map<String, List<String>>> list = new ArrayList<>();
+            list.add(bookedSeats);
+            return new EventBookingDto(eventId, list);
+    }
+
+    @Override
+    public BookingInfo getBookingInfo(String eventId) {
+        if(info != null){
+            return info;
+        }
+        this.eventId = eventId;
+        Set<String> tickets = storeProvider.getBookedTickets(eventId);
+        BookingInfo info = new BookingInfo();
+        for (String ticket : tickets) {
+            String[] rowAndSeat = ticket.split(",");
+            info.addBookedSeat(rowAndSeat[0], rowAndSeat[1]);
+        }
+        info.setTotalPrice(storeProvider.getTotalPrice());
+        this.info = info;
+        return info;
+    }
+
+    @Override
+    public double getTotalPrice() {
+        return info.getTotalPrice();
     }
 
     private EventBookingDto mapSeatModelToDto(List<Seat> seats){

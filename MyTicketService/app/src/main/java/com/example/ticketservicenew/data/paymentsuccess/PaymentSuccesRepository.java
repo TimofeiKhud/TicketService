@@ -1,5 +1,7 @@
 package com.example.ticketservicenew.data.paymentsuccess;
 
+import com.example.ticketservicenew.business.model.BookingInfo;
+import com.example.ticketservicenew.business.model.LockedSeats;
 import com.example.ticketservicenew.business.model.Seat;
 
 import java.util.List;
@@ -7,9 +9,13 @@ import java.util.List;
 public interface PaymentSuccesRepository {
     String getEventId();
 
-    List<Seat> getBookedSeats();
+    BookingInfo getPaymentInfo(String eventId);
+
+    void clearBookingInfo();
+
+    List<LockedSeats> getSoldSeats();
 
     void saveId(String eventId);
 
-    void saveBookedSeats(List<Seat> seats);
+    //void saveSoldSeats(List<LockedSeats> seats);
 }

@@ -15,10 +15,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.Navigation;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.ticketservicenew.R;
+import com.example.ticketservicenew.business.model.BookingInfo;
 import com.example.ticketservicenew.business.model.Seat;
 import com.example.ticketservicenew.presentation.eventlist.view.EventListFragment;
 import com.example.ticketservicenew.presentation.paymentsuccess.presenter.PaymentSuccessPresenter;
@@ -67,21 +69,21 @@ public class PaymentSuccessFragment extends MvpAppCompatFragment implements Paym
         setHasOptionsMenu(true);
         //((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        List<Seat> bookedSeats = new ArrayList<>();
-        int totalTickets = 0;
-        for(int i = 0; i < 30; i++){
-            if(getArguments().keySet().contains(Integer.toString(i))){
-                for(String seat : getArguments().getStringArrayList(String.valueOf(i))){
-                    Log.d(TAG, "seat: " + seat + "row: " + i);
-                    totalTickets++;
-                    bookedSeats.add(new Seat(seat, Integer.toString(i)));
-                }
-            }
-        }
-        presenter.setBookedSeats(getArguments().getString("Event id"), bookedSeats);
-        totalPriceTxt.setText("€" + getArguments().getDouble("Total price"));
-        totalTicketsTxt.setText(totalTickets + "tickets");
+//        List<Seat> bookedSeats = new ArrayList<>();
+//        int totalTickets = 0;
+//        for(int i = 0; i < 30; i++){
+//            if(getArguments().keySet().contains(Integer.toString(i))){
+//                for(String seat : getArguments().getStringArrayList(String.valueOf(i))){
+//                    Log.d(TAG, "seat: " + seat + "row: " + i);
+//                    totalTickets++;
+//                    bookedSeats.add(new Seat(seat, Integer.toString(i)));
+//                }
+//            }
+//        }
+//        presenter.setBookedSeats(getArguments().getString("Event id"), bookedSeats);
 
+        PaymentSuccessFragmentArgs args = PaymentSuccessFragmentArgs.fromBundle(requireArguments());
+        presenter.onShowPaymentInfo(args.getEventId(), args.getTitle());
         navToList.setText(toMainMenuString());
         navToList.setMovementMethod(LinkMovementMethod.getInstance());
         return  v;
@@ -99,9 +101,11 @@ public class PaymentSuccessFragment extends MvpAppCompatFragment implements Paym
         return ss;
     }
 
+
+
     @OnClick(R.id.download_btn)
     void onDownload(){
-
+        presenter.onDownloadClicked();
     }
 
     @Override
@@ -116,14 +120,24 @@ public class PaymentSuccessFragment extends MvpAppCompatFragment implements Paym
         super.onDestroyView();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setTitle("SUCCESS");
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        getActivity().setTitle("SUCCESS");
+//    }
 
     @Override
     public void showNextView() {
-        getParentFragmentManager().popBackStack(EventListFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        //getParentFragmentManager().popBackStack(EventListFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        Navigation.findNavController(getView())
+                .navigate(PaymentSuccessFragmentDirections.actionPaymentSuccessFragmentToEventListFragment());
+    }
+
+    @Override
+    public void showPaymentInfo(String title, BookingInfo info) {
+        titleTxt.setText(title);
+        totalPriceTxt.setText("€" + info.getTotalPrice());
+        int totalTickets = info.getNumTicketsBooked();
+        totalTicketsTxt.setText(totalTickets + (totalTickets%10 == 1 ? " ticket" : " tickets"));
     }
 }

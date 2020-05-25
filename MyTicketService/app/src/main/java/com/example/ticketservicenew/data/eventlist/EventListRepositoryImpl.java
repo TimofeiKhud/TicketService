@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import com.example.ticketservicenew.business.model.Event;
 import com.example.ticketservicenew.data.dto.EventDateHallDto;
 import com.example.ticketservicenew.data.dto.admin.EventOutputDto;
+import com.example.ticketservicenew.data.dto.mapper.EventBookingDtoMapper;
 import com.example.ticketservicenew.data.eventlist.datasource.EventListDataSource;
 import com.example.ticketservicenew.data.provider.web.Api;
 
@@ -16,10 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import retrofit2.Response;
 
+/**
+ * {@link EventListRepository} for retrieving event data.
+ */
 public class EventListRepositoryImpl implements EventListRepository{
     private static final String TAG = "EventsListRepoImpl";
 
@@ -27,7 +32,10 @@ public class EventListRepositoryImpl implements EventListRepository{
 
     //API
     private Api api;
+    private EventBookingDtoMapper eventBookingDtoMapper;
 
+    private int retryCount;
+    private int numberOfAttemptToRetry;
     private int pageSize;
 
     private List<EventOutputDto> allEvents;
@@ -41,15 +49,24 @@ public class EventListRepositoryImpl implements EventListRepository{
     private boolean searchStringChanged;
 
 
-    public EventListRepositoryImpl(Api api) {
+    /**
+     * Constructs a {@link EventListRepository}.
+     *
+     * @param api {@link Api}
+     * @param eventBookingDtoMapper {@link EventBookingDtoMapper}.
+     */
+    public EventListRepositoryImpl(Api api, EventBookingDtoMapper eventBookingDtoMapper) {
         Log.d(TAG, "create");
         this.api = api;
+        this.eventBookingDtoMapper = eventBookingDtoMapper;
+
         categFilters = new ArrayList<>();
         dateFilter = new Pair<>(-1L, -1L);
         allEvents = new ArrayList<>();
         filteredEvents = new ArrayList<>();
         searchString = "";
         pageSize = 5;
+        numberOfAttemptToRetry = 3;
     }
 
     @Override
@@ -68,6 +85,7 @@ public class EventListRepositoryImpl implements EventListRepository{
     @Override
     public Single<List<Event>> getEvents(int pageNumber, int pageSize) {
         Log.d(TAG, "getCurrentEvents: start");
+        retryCount = 0;
         if(searchStringChanged){
             Log.d(TAG, "get events (filtered events number): " + filteredEvents.size());
             if(pageNumber > 0){
@@ -77,22 +95,32 @@ public class EventListRepositoryImpl implements EventListRepository{
             return Single.just(filteredEvents)
                     .flatMap(this::filterNotFilledEvents)
                     .flatMap(this::searchEvents)
-                    .map(this::mapEventDtoToEvent);
+                    .map(eventOutputDtoList -> eventBookingDtoMapper.mapEventDtoToEvent(eventOutputDtoList));
         }else if (dateFilter.first > 0 && dateFilter.second > 0){
             EventDateHallDto dto = new EventDateHallDto(dateFilter.first, dateFilter.second);
             return api.getByDates(pageNumber, pageSize, dto)
+                    .onErrorResumeNext(throwable -> {
+                        if (retryCount < numberOfAttemptToRetry) {
+                            retryCount++;
+                        return api.getByDates(pageNumber, pageSize, dto);
+                    }else return Single.fromObservable(Observable.empty()); })
                     .flatMap(this::onGetEventsSuccess)
                     .flatMap(this::filterNotFilledEvents)
                     .flatMap(this::searchEvents)
                     .flatMap(this::filterEvents)
-                    .map(this::mapEventDtoToEvent);
+                    .map(eventOutputDtoList -> eventBookingDtoMapper.mapEventDtoToEvent(eventOutputDtoList));
         }else{
             return api.getCurrentEvents(pageNumber, pageSize)
+                    .onErrorResumeNext(throwable -> {
+                        if (retryCount < numberOfAttemptToRetry) {
+                            retryCount++;
+                            return api.getCurrentEvents(pageNumber, pageSize);
+                        }else return Single.fromObservable(Observable.empty()); })
                     .flatMap(this::onGetEventsSuccess)
                     .flatMap(this::filterNotFilledEvents)
                     .flatMap(this::searchEvents)
                     .flatMap(this::filterEvents)
-                    .map(this::mapEventDtoToEvent);
+                    .map(eventOutputDtoList -> eventBookingDtoMapper.mapEventDtoToEvent(eventOutputDtoList));
         }
     }
 
@@ -179,24 +207,5 @@ public class EventListRepositoryImpl implements EventListRepository{
         return Single.just(res);
     }
 
-    private List<Event> mapEventDtoToEvent(List<EventOutputDto> list){
-        List<Event> events = new ArrayList<>();
-        int i = 0;
-        for(EventOutputDto dto : list){
-            Event event = new Event(dto.getEventId(),
-                    dto.getEventStatus(),
-                    dto.getEventName(),
-                    dto.getArtist(),
-                    dto.getEventStart(),
-                    dto.getEventDurationHours(),
-                    dto.getHall(),
-                    dto.getEventType(),
-                    dto.getDescription(),
-                    dto.getImages(),
-                    dto.getPriceRanges().toString(),
-                    dto.getManagers().toString());
-            events.add(event);
-        }
-        return events;
-    }
+
 }

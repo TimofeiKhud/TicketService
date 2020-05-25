@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -66,6 +67,8 @@ public class EventListFragment extends MvpAppCompatFragment implements EventList
     RecyclerView eventListRecycler;
     @BindView(R.id.filter_btn)
     Button filterBtn;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     SearchView searchView;
     MenuItem searchItem;
@@ -75,7 +78,7 @@ public class EventListFragment extends MvpAppCompatFragment implements EventList
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        //((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         setRetainInstance(true);
         View v = inflater.inflate(R.layout.event_list_fragment, container, false);
         unbinder = ButterKnife.bind(this, v);
@@ -101,7 +104,6 @@ public class EventListFragment extends MvpAppCompatFragment implements EventList
     }
 
     private void init(Bundle savedInstanceState) {
-
         DiffUtil.ItemCallback<Event> callback = new DiffUtil.ItemCallback<Event>() {
             @Override
             public boolean areItemsTheSame(@NonNull Event oldItem, @NonNull Event newItem) {
@@ -148,11 +150,11 @@ public class EventListFragment extends MvpAppCompatFragment implements EventList
         outState.putString(SEARCH_KEY, searchString);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setTitle("EVENTS");
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        getActivity().setTitle("EVENTS");
+//    }
 
     @Override
     public void onDestroyView() {
@@ -227,11 +229,25 @@ public class EventListFragment extends MvpAppCompatFragment implements EventList
     }
 
     @Override
-    public void onFiltersSet(PagedList<Event> filteredEvents) {
+    public void showEvents(PagedList<Event> filteredEvents) {
         for (Event event : filteredEvents) {
             Log.d(TAG, "submit list: " + event.getArtist());
         }
         adapter.submitList(filteredEvents);
+    }
+
+    @Override
+    public void showProgress() {
+        eventListRecycler.setEnabled(false);
+        filterBtn.setEnabled(false);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        eventListRecycler.setEnabled(true);
+        filterBtn.setEnabled(true);
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

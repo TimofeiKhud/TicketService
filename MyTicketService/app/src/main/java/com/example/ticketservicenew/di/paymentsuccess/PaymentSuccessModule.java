@@ -8,6 +8,7 @@ import com.example.ticketservicenew.data.paying.PayingRepository;
 import com.example.ticketservicenew.data.paying.PayingRepositoryImpl;
 import com.example.ticketservicenew.data.paymentsuccess.PaymentSuccesRepository;
 import com.example.ticketservicenew.data.paymentsuccess.PaymentSuccessRepositoryImpl;
+import com.example.ticketservicenew.data.provider.store.StoreProvider;
 import com.example.ticketservicenew.data.provider.web.Api;
 
 import dagger.Module;
@@ -17,8 +18,8 @@ import dagger.Provides;
 public class PaymentSuccessModule {
     @Provides
     @PaymentSuccessScope
-    PaymentSuccesRepository providePaymentSuccessRepo(Api api){
-        return new PaymentSuccessRepositoryImpl(api);
+    PaymentSuccesRepository providePaymentSuccessRepo(Api api, StoreProvider storeProvider){
+        return new PaymentSuccessRepositoryImpl(api, storeProvider);
     }
 
     @Provides

@@ -1,17 +1,26 @@
 package com.example.ticketservicenew.data.paying;
 
+import com.example.ticketservicenew.business.model.BookingInfo;
+import com.example.ticketservicenew.business.model.LockedSeats;
 import com.example.ticketservicenew.business.model.Seat;
 
 import java.util.List;
 
+import io.reactivex.Completable;
+
 public interface PayingRepository {
-    void saveBookedSeats(List<Seat> seats);
 
-    List<Seat> getBookedSeats();
+    Completable sellTickets();
 
-    void saveId(String eventId);
+    //void saveBookedSeats(List<Seat> seats);
+
+    List<LockedSeats> getBookedSeats();
+
+//    void saveId(String eventId);
 
     String getEventId();
 
-    void sellTickets();
+    BookingInfo getBookingInfo(String eventId);
+
+    double getTotalPrice();
 }

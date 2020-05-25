@@ -4,14 +4,36 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Contains number of the row, locked seats in the row and price for one seat
+ */
 public class LockedSeats {
-    Map<String, List<String>> lockedSeats;
+    //Map<String, List<String>> lockedSeats;
+    private String row;
+    private List<String> seats;
 
-    public LockedSeats(Map<String, List<String>> lockedSeats) {
-        this.lockedSeats = lockedSeats;
+    public LockedSeats(String row, List<String> seats) {
+        this.row = row;
+        this.seats = seats;
     }
 
-    public Map<String, List<String>> getLockedSeats() {
-        return lockedSeats;
+    public String getRow() {
+        return row;
     }
+
+    public List<String> getSeats() {
+        return seats;
+    }
+
+    public void addSeat(String seat) {
+        seats.add(seat);
+    }
+
+    //    public LockedSeats(Map<String, List<String>> lockedSeats) {
+//        this.lockedSeats = lockedSeats;
+//    }
+//
+//    public Map<String, List<String>> getLockedSeats() {
+//        return lockedSeats;
+//    }
 }

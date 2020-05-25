@@ -20,11 +20,29 @@ public class EventInteractorImpl implements EventInteractor {
     }
 
     @Override
-    public Single<EventInfo> getEventInfo(String id) {
-        return repository.getEventInfo(id);
+    public Single<EventInfo> getEventInfo() {
+        return repository.getEventInfo();
     }
 
+    @Override
+    public void saveId(String eventId) {
+        repository.saveEventId(eventId);
+    }
 
+    @Override
+    public String getEventId() {
+        return repository.getEventId();
+    }
+
+    @Override
+    public void saveHallId(int hall) {
+        repository.saveHallId(hall);
+    }
+
+    @Override
+    public int getHallId() {
+        return repository.getHallId();
+    }
 
 
 }

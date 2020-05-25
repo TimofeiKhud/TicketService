@@ -24,8 +24,8 @@
     <fragment
         android:id="@+id/bottomSheetFragment"
         android:name="com.example.ticketservicenew.presentation.eventlist.view.BottomSheetFragment"
-        android:label="bottom_sheet_fragment"
-        tools:layout="@layout/bottom_sheet_fragment" >
+        android:label="@string/title_filters"
+        tools:layout="@layout/bottom_sheet_fragment">
         <action
             android:id="@+id/action_bottomSheetFragment_to_eventListFragment"
             app:destination="@id/eventListFragment" />
@@ -33,8 +33,8 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.ticketservicenew.presentation.auth.login.view.LoginFragment"
-        android:label="login_fragment"
-        tools:layout="@layout/login_fragment" >
+        android:label="@string/title_login"
+        tools:layout="@layout/login_fragment">
         <action
             android:id="@+id/action_loginFragment_to_regFragment"
             app:destination="@id/regFragment"
@@ -46,8 +46,8 @@
     <fragment
         android:id="@+id/regFragment"
         android:name="com.example.ticketservicenew.presentation.auth.registration.view.RegFragment"
-        android:label="registration_fragment"
-        tools:layout="@layout/registration_fragment" >
+        android:label="@string/title_registration"
+        tools:layout="@layout/registration_fragment">
         <action
             android:id="@+id/action_regFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -55,11 +55,8 @@
     <fragment
         android:id="@+id/eventFragment"
         android:name="com.example.ticketservicenew.presentation.event.view.EventFragment"
-        android:label="event_details"
-        tools:layout="@layout/event_details" >
-        <action
-            android:id="@+id/action_eventFragment_to_eventListFragment"
-            app:destination="@id/eventListFragment" />
+        android:label="@string/title_event"
+        tools:layout="@layout/event_details">
         <action
             android:id="@+id/action_eventFragment_to_hallFragment"
             app:destination="@id/hallFragment"
@@ -74,11 +71,8 @@
     <fragment
         android:id="@+id/hallFragment"
         android:name="com.example.ticketservicenew.presentation.hall.view.HallFragment"
-        android:label="hall_fragment"
-        tools:layout="@layout/hall_fragment" >
-        <action
-            android:id="@+id/action_hallFragment_to_eventFragment"
-            app:destination="@id/eventFragment" />
+        android:label="@string/title_hall"
+        tools:layout="@layout/hall_fragment">
         <action
             android:id="@+id/action_hallFragment_to_shoppingCartFragment"
             app:destination="@id/shoppingCartFragment"
@@ -89,39 +83,53 @@
         <argument
             android:name="eventId"
             app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="hallId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/shoppingCartFragment"
         android:name="com.example.ticketservicenew.presentation.shoppingcart.view.ShoppingCartFragment"
-        android:label="fragment_shopping_cart"
-        tools:layout="@layout/fragment_shopping_cart" >
-        <action
-            android:id="@+id/action_shoppingCartFragment_to_hallFragment"
-            app:destination="@id/hallFragment" />
+        android:label="@string/title_shopping_cart"
+        tools:layout="@layout/fragment_shopping_cart">
         <action
             android:id="@+id/action_shoppingCartFragment_to_payingFragment"
             app:destination="@id/payingFragment" />
+        <action
+            android:id="@+id/action_shoppingCartFragment_to_eventListFragment"
+            app:destination="@id/eventListFragment" />
     </fragment>
     <fragment
         android:id="@+id/payingFragment"
         android:name="com.example.ticketservicenew.presentation.paying.view.PayingFragment"
-        android:label="fragment_paying"
-        tools:layout="@layout/fragment_paying" >
-        <action
-            android:id="@+id/action_payingFragment_to_shoppingCartFragment"
-            app:destination="@id/shoppingCartFragment" />
+        android:label="@string/title_paying"
+        tools:layout="@layout/fragment_paying">
         <action
             android:id="@+id/action_payingFragment_to_paymentSuccessFragment"
             app:destination="@id/paymentSuccessFragment" />
+        <argument
+            android:name="eventId"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/paymentSuccessFragment"
         android:name="com.example.ticketservicenew.presentation.paymentsuccess.view.PaymentSuccessFragment"
-        android:label="fragment_payment_success"
-        tools:layout="@layout/fragment_payment_success" >
+        android:label="@string/title_success"
+        tools:layout="@layout/fragment_payment_success">
+        <argument
+            android:name="eventId"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
         <action
-            android:id="@+id/action_paymentSuccessFragment_to_payingFragment"
-            app:destination="@id/payingFragment"
-            app:popUpTo="@id/eventListFragment" />
+            android:id="@+id/action_paymentSuccessFragment_to_eventListFragment"
+            app:destination="@id/eventListFragment" />
     </fragment>
 </navigation>

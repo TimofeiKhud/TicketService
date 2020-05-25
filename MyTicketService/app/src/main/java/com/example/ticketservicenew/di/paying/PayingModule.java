@@ -18,8 +18,8 @@ import dagger.Provides;
 public class PayingModule {
     @Provides
     @PayingScope
-    PayingRepository providePayingRepo(Api api){
-        return new PayingRepositoryImpl(api);
+    PayingRepository providePayingRepo(Api api, StoreProvider storeProvider){
+        return new PayingRepositoryImpl(api, storeProvider);
     }
 
     @Provides

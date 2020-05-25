@@ -74,54 +74,45 @@ public class EventFragment extends MvpAppCompatFragment implements EventView {
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         setRetainInstance(true);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         View v = inflater.inflate(R.layout.event_details, container, false);
 
         unbinder = ButterKnife.bind(this, v);
 
         EventFragmentArgs args = EventFragmentArgs.fromBundle(requireArguments());
         presenter.onShowEvent(args.getEventId());
-        eventTitle.setText(event.getArtist());
-        eventName.setText(event.getEventName());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM", Locale.US);
-        eventDate.setText(dateFormat.format(event.getEventStart()));
-        if(event.getImages().size() > 0) {
-            Picasso.get().load(event.getImages().get(0)).fit().into(eventImg);
-        }
-        description.setText(event.getDescription());
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        date.setText(String.format("Date: %s", dateFormat.format(event.getEventStart())));
-        time.setText(timeFormat.format(event.getEventStart()));
 
-        Single<EventInfo> single = presenter.getEventInfo(event.getEventId());
-        disposable = single.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(eventInfo -> {
-                    ticketsAvailable.setText(String.format("%s%d", getString(R.string.tickets_available), eventInfo.getRestTick()));
-                    priceRange.setText(String.format("Price range: %s € - %s €", eventInfo.getMinPrice(), eventInfo.getMaxPrice()));
-                });
+
+
+        //Single<EventInfo> single = presenter.getEventInfo(event.getEventId());
+//        disposable = single.subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(eventInfo -> {
+//                    ticketsAvailable.setText(String.format("%s%d", getString(R.string.tickets_available), eventInfo.getRestTick()));
+//                    priceRange.setText(String.format("Price range: %s € - %s €", eventInfo.getMinPrice(), eventInfo.getMaxPrice()));
+//                });
         return v;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setTitle("EVENT");
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        getActivity().setTitle("EVENT");
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                Log.d(TAG, "back pressed");
-                getParentFragmentManager().popBackStackImmediate();
-                //getActivity().onBackPressed();
-                return true;
-            }
-            default:
-                return false;
-        }
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        switch (item.getItemId()) {
+//            case android.R.id.home: {
+//                Log.d(TAG, "back pressed");
+//                getParentFragmentManager().popBackStackImmediate();
+//                //getActivity().onBackPressed();
+//                return true;
+//            }
+//            default:
+//                return false;
+//        }
+//    }
 
     @OnClick(R.id.buy_tickets_btn)
     void onBuyTicketsClick(){
@@ -133,13 +124,44 @@ public class EventFragment extends MvpAppCompatFragment implements EventView {
 //               .replace(R.id.fragment_container, hallFragment)
 //               .addToBackStack(TAG)
 //               .commit();
-        Navigation.findNavController(getView()).navigate(EventFragmentDirections.actionEventFragmentToHallFragment(event.getEventId()));
+        presenter.onBuyTicketsClicked();
+
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        disposable.dispose();
+        if(disposable != null){
+            disposable.dispose();
+        }
+
+    }
+
+    @Override
+    public void showEvent(Event event) {
+        eventTitle.setText(event.getArtist());
+        eventName.setText(event.getEventName());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM", Locale.US);
+        eventDate.setText(dateFormat.format(event.getEventStart()));
+        if(event.getImages().size() > 0) {
+            Picasso.get().load(event.getImages().get(0)).fit().into(eventImg);
+        }
+        description.setText(event.getDescription());
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        date.setText(String.format("Date: %s", dateFormat.format(event.getEventStart())));
+        time.setText(timeFormat.format(event.getEventStart()));
+    }
+
+    @Override
+    public void showEventInfo(EventInfo eventInfo) {
+        ticketsAvailable.setText(String.format("%s%d", getString(R.string.tickets_available), eventInfo.getRestTick()));
+        priceRange.setText(String.format("Price range: € %s - € %s", eventInfo.getMinPrice(), eventInfo.getMaxPrice()));
+    }
+
+    @Override
+    public void showNextView(String eventId, int hallId) {
+        String title = eventTitle.getText() + " | " + eventName.getText() + " | " + eventDate.getText();
+        Navigation.findNavController(getView()).navigate(EventFragmentDirections.actionEventFragmentToHallFragment(eventId, title, hallId));
     }
 }

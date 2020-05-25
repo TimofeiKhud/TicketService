@@ -24,6 +24,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 @InjectViewState
 public class EventListPresenter extends MvpPresenter<EventListView> {
@@ -56,13 +57,17 @@ public class EventListPresenter extends MvpPresenter<EventListView> {
                         .build();
 
         pagedListObservable = new RxPagedListBuilder<>(factory, pagedListConfig).buildObservable();
-
+        getViewState().showProgress();
         Disposable disposable = pagedListObservable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe((d) -> getViewState().showProgress())
                 .subscribe((PagedList<Event> events) -> {
-                    getViewState().onFiltersSet(events);
+                    getViewState().hideProgress();
+                    getViewState().showEvents(events);
                 }, (error) -> {
+                    Timber.d(error.getMessage());
+                    getViewState().hideProgress();
                 });
         compositeDisposable.add(disposable);
     }

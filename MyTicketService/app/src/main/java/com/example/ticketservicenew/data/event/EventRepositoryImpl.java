@@ -15,7 +15,9 @@ import retrofit2.Response;
 
 public class EventRepositoryImpl implements EventRepository{
     public static final String TAG = EventRepositoryImpl.class.getName();
-private Api api;
+    private Api api;
+    private String eventId;
+    private int hallId;
 
     public EventRepositoryImpl(Api api) {
         this.api = api;
@@ -28,8 +30,28 @@ private Api api;
     }
 
     @Override
-    public Single<EventInfo> getEventInfo(String id) {
-        return api.getEventInfo(id).flatMap(this::onGetEventInfoSuccess).map(this::mapEventInfoDtoToModel);
+    public Single<EventInfo> getEventInfo() {
+        return api.getEventInfo(eventId).flatMap(this::onGetEventInfoSuccess).map(this::mapEventInfoDtoToModel);
+    }
+
+    @Override
+    public void saveEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    @Override
+    public String getEventId() {
+        return eventId;
+    }
+
+    @Override
+    public void saveHallId(int hall) {
+        this.hallId = hall;
+    }
+
+    @Override
+    public int getHallId() {
+        return hallId;
     }
 
     private Single<EventOutputDto> onGetEventSuccess(Response<EventOutputDto> response) throws IOException {

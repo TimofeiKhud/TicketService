@@ -1,19 +1,19 @@
 package com.example.ticketservicenew.business.model;
 
 public class Seat {
-    String seatNum;
     String row;
+    String seatNum;
     double price;
 
-    public Seat(String seatNum, String row, double price) {
-        this.seatNum = seatNum;
+    public Seat(String row, String seatNum, double price) {
         this.row = row;
+        this.seatNum = seatNum;
         this.price = price;
     }
 
-    public Seat(String seatNum, String row) {
-        this.seatNum = seatNum;
+    public Seat(String row, String seatNum) {
         this.row = row;
+        this.seatNum = seatNum;
     }
 
     public String getSeatNum() {
@@ -31,8 +31,8 @@ public class Seat {
     @Override
     public String toString() {
         return "Seat{" +
-                "seatNum='" + seatNum + '\'' +
-                ", row='" + row + '\'' +
+                "row='" + row + '\'' +
+                ", seatNum='" + seatNum + '\'' +
                 ", price=" + price +
                 '}';
     }

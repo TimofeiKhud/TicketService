@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +22,8 @@ import android.widget.TextView;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.ticketservicenew.R;
+import com.example.ticketservicenew.business.model.BookingInfo;
+import com.example.ticketservicenew.business.model.LockedSeats;
 import com.example.ticketservicenew.business.model.Seat;
 import com.example.ticketservicenew.presentation.paying.view.PayingFragment;
 import com.example.ticketservicenew.presentation.shoppingcart.adapter.ShoppingCartAdapter;
@@ -49,6 +52,10 @@ public class ShoppingCartFragment extends MvpAppCompatFragment implements Shoppi
 
     @BindView(R.id.title_txt)
     TextView titleTxt;
+    @BindView(R.id.empty_cart_title_txt)
+    TextView emptyCartTxt;
+    @BindView(R.id.notification_txt)
+    TextView notificationTxt;
     @BindView(R.id.total_price_txt)
     TextView totalPriceTxt;
     @BindView(R.id.total_tickets_txt)
@@ -58,7 +65,7 @@ public class ShoppingCartFragment extends MvpAppCompatFragment implements Shoppi
     @BindView(R.id.seats_recycler)
     RecyclerView recyclerView;
     @BindView(R.id.delete_selection_btn)
-    Button deletSelectionDtn;
+    Button deletSelectionBtn;
     @BindView(R.id.pay_btn)
     Button payBtn;
     @BindView(R.id.progressBar)
@@ -83,39 +90,39 @@ public class ShoppingCartFragment extends MvpAppCompatFragment implements Shoppi
         setRetainInstance(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        List<Seat> bookedSeats = new ArrayList<>();
-        for(int i = 0; i < 30; i++){
-            if(getArguments().keySet().contains(Integer.toString(i))){
-                for(String seat : getArguments().getStringArrayList(String.valueOf(i))){
-                    Log.d(TAG, "seat: " + seat + "row: " + i);
-                    bookedSeats.add(new Seat(seat, Integer.toString(i)));
-                }
-            }
-        }
-        presenter.onShowBookedSeats(getArguments().getString("Event id"), bookedSeats);
-
+//        List<Seat> bookedSeats = new ArrayList<>();
+//        for(int i = 0; i < 30; i++){
+//            if(getArguments().keySet().contains(Integer.toString(i))){
+//                for(String seat : getArguments().getStringArrayList(String.valueOf(i))){
+//                    Log.d(TAG, "seat: " + seat + "row: " + i);
+//                    bookedSeats.add(new Seat(seat, Integer.toString(i)));
+//                }
+//            }
+//        }
+//        presenter.onShowBookedSeats(getArguments().getString("Event id"), bookedSeats);
+        presenter.onShowBookingInfo();
         return  v;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                Log.d(TAG, "back pressed");
-                showPrewView();
-                //getActivity().onBackPressed();
-                return true;
-            }
-            default:
-                return false;
-        }
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        switch (item.getItemId()) {
+//            case android.R.id.home: {
+//                Log.d(TAG, "back pressed");
+//                showPrewView();
+//                //getActivity().onBackPressed();
+//                return true;
+//            }
+//            default:
+//                return false;
+//        }
+//    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setTitle("SHOPPING CART");
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        getActivity().setTitle("SHOPPING CART");
+//    }
 
     @Override
     public void onDestroyView() {
@@ -130,7 +137,7 @@ public class ShoppingCartFragment extends MvpAppCompatFragment implements Shoppi
 
     @OnClick(R.id.pay_btn)
     void onPay(){
-        presenter.onPay();
+        presenter.onPayClicked();
     }
 
     @Override
@@ -146,27 +153,28 @@ public class ShoppingCartFragment extends MvpAppCompatFragment implements Shoppi
     }
 
     @Override
-    public void setBookedSeats(List<Seat> seats) {
-        totalPriceTxt.setText("€" + getArguments().getDouble("Total price"));
-        adapter.addSeats(seats);
+    public void showTitle(String title) {
+        titleTxt.setText(title);
     }
 
     @Override
-    public void showNextView(String id, List<Seat> seats) {
-        Bundle bundle = new Bundle();
-        double totalPrice = getArguments().getDouble("Total price");
-        bundle.putDouble("Total price", totalPrice);
-        bundle.putString("Event id", id);
-        for(Seat seat : seats){
-            ArrayList<String> seatList = bundle.keySet().contains(seat.getRow()) && bundle.getStringArrayList(seat.getRow()) != null ?
-                    bundle.getStringArrayList(seat.getRow()) : new ArrayList<>();
-            seatList.add(seat.getSeatNum());
-            bundle.putStringArrayList(seat.getRow(), seatList);
-        }
-
-
-        PayingFragment payingFragment = new PayingFragment();
-        payingFragment.setArguments(bundle);
+    public void showNextView(String eventId, int ticketsNum, float totalPrice) {
+//        Bundle bundle = new Bundle();
+//        double totalPrice = getArguments().getDouble("Total price");
+//        bundle.putDouble("Total price", totalPrice);
+//        bundle.putString("Event id", id);
+//        for(Seat seat : seats){
+//            ArrayList<String> seatList = bundle.keySet().contains(seat.getRow()) && bundle.getStringArrayList(seat.getRow()) != null ?
+//                    bundle.getStringArrayList(seat.getRow()) : new ArrayList<>();
+//            seatList.add(seat.getSeatNum());
+//            bundle.putStringArrayList(seat.getRow(), seatList);
+//        }
+//
+//
+//        PayingFragment payingFragment = new PayingFragment();
+//        payingFragment.setArguments(bundle);
+        Navigation.findNavController(getView())
+                .navigate(ShoppingCartFragmentDirections.actionShoppingCartFragmentToPayingFragment(eventId, titleTxt.getText().toString()));
 //        getParentFragmentManager().beginTransaction()
 //                .replace(R.id.fragment_container, payingFragment)
 //                .addToBackStack(TAG)
@@ -175,7 +183,9 @@ public class ShoppingCartFragment extends MvpAppCompatFragment implements Shoppi
 
     @Override
     public void showPrewView() {
-        getParentFragmentManager().popBackStackImmediate();
+        Navigation.findNavController(getView())
+                .navigate(ShoppingCartFragmentDirections.actionShoppingCartFragmentToEventListFragment());
+        //getParentFragmentManager().popBackStackImmediate();
     }
 
     @Override
@@ -185,7 +195,7 @@ Log.d(TAG, "show error");
 
     @Override
     public void showConfirmationDialog() {
-        confirmDialog = new AlertDialog.Builder(Objects.requireNonNull(getContext()))
+        confirmDialog = new AlertDialog.Builder(requireContext())
                 .setTitle("Delete selection")
                 .setMessage("Remove selected seats from the cart?")
                 .setCancelable(false)
@@ -198,6 +208,28 @@ Log.d(TAG, "show error");
     @Override
     public void hideConfirmationDialog() {
         confirmDialog.dismiss();
+    }
+
+    @Override
+    public void showBookingInfo(BookingInfo info) {
+        totalPriceTxt.setText("€ " + info.getTotalPrice());
+        int totalTickets = info.getNumTicketsBooked();
+        totalTicketsTxt.setText(totalTickets + (totalTickets%10 == 1 ? " ticket" : " tickets"));
+        List<Seat> seats = new ArrayList<>();
+        for(LockedSeats lockedSeats : info.getLockedSeats()){
+            for(String seat : lockedSeats.getSeats()){
+                seats.add(new Seat(lockedSeats.getRow(), seat));
+            }
+        }
+        adapter.addSeats(seats);
+    }
+
+    @Override
+    public void showEmptyCart() {
+        emptyCartTxt.setVisibility(View.VISIBLE);
+        notificationTxt.setVisibility(View.GONE);
+        deletSelectionBtn.setVisibility(View.GONE);
+        payBtn.setVisibility(View.GONE);
     }
 
 }

@@ -15,7 +15,9 @@ import java.util.List;
 public interface EventListView extends MvpView {
     void showFilters();
     void onEventClicked();
-    void onFiltersSet(PagedList<Event> filteredEvents);
+    void showEvents(PagedList<Event> filteredEvents);
+    void showProgress();
+    void hideProgress();
 
     //int getLastVisibleEventPosition(); void scrollEventList(RecyclerView recyclerview)
 }

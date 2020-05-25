@@ -2,11 +2,31 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">#f3f4f4</item>
-        <item name="colorAccent">#ffc800</item>
-        <item name="android:editTextColor">#868685</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:editTextColor">@color/dark_grey_color</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+
+        <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
+        <item name="actionMenuTextColor">@color/dark_grey_color</item>
+    </style>
+    
+    <!--  Action bar style  -->
+    <style name="Widget.Styled.ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="titleTextStyle">@style/ActionBarTitleText</item>
+    </style>
+
+    <!--  Action bar title style  -->
+    <style name="ActionBarTitleText" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/dark_grey_color</item>
+        <item name="android:textSize">@dimen/common_text_size</item>
+    </style>
+
+    <!--  Up button style  -->
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/dark_grey_color</item>
+        <item name="spinBars">true</item>
     </style>
 
     <!-- Basic styling for the buttons. -->
@@ -17,15 +37,19 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!-- Basic styling for the checkboxes. -->
     <style name="CheckBoxStyle" parent="android:Widget.CompoundButton.CheckBox">
-        <item name="colorAccent">#ffc800</item>
-        <item name="android:textColorSecondary">#868685</item>
-        <item name="android:textSize">14sp</item>
+        <item name="colorAccent">@color/orange_color</item>
+        <item name="android:textColorSecondary">@color/dark_grey_color</item>
+        <item name="android:textSize">@dimen/small_text_size</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <!--  Seat button style (hall view)  -->
+    <style name="seat_button">
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:clickable">true</item>
+        <item name="android:width">20dp</item>
     </style>
-
+    
 </resources>

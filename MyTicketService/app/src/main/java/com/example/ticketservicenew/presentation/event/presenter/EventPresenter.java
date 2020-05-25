@@ -14,36 +14,49 @@ import javax.inject.Inject;
 
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class EventPresenter extends MvpPresenter<EventView> {
+    CompositeDisposable compositeDisposable;
     @Inject
     EventInteractor interactor;
 
     public EventPresenter() {
+        compositeDisposable = new CompositeDisposable();
         App.get().plusEvent(new EventModule()).inject(this);
     }
 
-    public Single<Event> getEvent(String id){
-        return interactor.getEvent(id);
+    public void onShowEvent(String eventId) {
+        interactor.saveId(eventId);
+        Disposable eventDisposable = interactor.getEvent(eventId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(event -> {
+                    interactor.saveHallId(event.getHall());
+                    getViewState().showEvent(event);
+                });
+
+        Disposable eventInfoDisposable = interactor.getEventInfo()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(eventInfo -> {
+                    getViewState().showEventInfo(eventInfo);
+                });
+
+        compositeDisposable.addAll(eventDisposable, eventInfoDisposable);
     }
 
-    public Single<EventInfo> getEventInfo(String id){return interactor.getEventInfo(id);}
+    public void onBuyTicketsClicked() {
+        getViewState().showNextView(interactor.getEventId(), interactor.getHallId());
+    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        compositeDisposable.clear();
         App.get().clearEventComponent();
-    }
-
-    public void onShowEvent(String eventId) {
-        Disposable disposable = interactor.getEvent(eventId).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(eventInfo -> {
-                    ticketsAvailable.setText(String.format("%s%d", getString(R.string.tickets_available), eventInfo.getRestTick()));
-                    priceRange.setText(String.format("Price range: %s € - %s €", eventInfo.getMinPrice(), eventInfo.getMaxPrice()));
-                });
     }
 }

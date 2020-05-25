@@ -15,7 +15,7 @@ public class ShoppingCartModule {
     @Provides
     @ShoppingCartScope
     ShoppingCartRepository provideShoppingCartRepo(Api api, StoreProvider store){
-        return new ShoppingCartRepositoryImpl(api);
+        return new ShoppingCartRepositoryImpl(api, store);
     }
 
     @Provides

@@ -3,7 +3,6 @@ package com.example.ticketservicenew.presentation.hall.view;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -11,14 +10,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,24 +28,20 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.ticketservicenew.R;
 import com.example.ticketservicenew.business.model.HallStructure;
+import com.example.ticketservicenew.business.model.LockedSeats;
+import com.example.ticketservicenew.business.model.Price;
 import com.example.ticketservicenew.business.model.Seat;
 import com.example.ticketservicenew.presentation.hall.adapter.SelectedSeatsAdapter;
 import com.example.ticketservicenew.presentation.hall.presenter.HallPresenter;
-import com.example.ticketservicenew.presentation.shoppingcart.view.ShoppingCartFragment;
+import com.example.ticketservicenew.presentation.hall.utils.HallConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import io.reactivex.Completable;
-import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 
@@ -56,9 +54,10 @@ public class HallFragment extends MvpAppCompatFragment implements HallView{
     HallPresenter presenter;
     Unbinder unbinder;
     SelectedSeatsAdapter adapter;
-    Disposable disposable;
-    Disposable bookingDisposable;
 
+
+    @BindView(R.id.event_title_txt)
+    TextView eventTitleTxt;
     @BindView(R.id.high_price_txt)
     TextView highPriceTxt;
     @BindView(R.id.middle_price_txt)
@@ -76,10 +75,13 @@ public class HallFragment extends MvpAppCompatFragment implements HallView{
     @BindView(R.id.progressbar)
     ProgressBar progressBar;
 
-    @BindView(R.id.row_edit)
-    EditText rowEdit;
-    @BindView(R.id.seat_edit)
-    EditText seatEdit;
+    @BindView(R.id.hall_scroll)
+    HorizontalScrollView hallScroll;
+
+//    @BindView(R.id.row_edit)
+//    EditText rowEdit;
+//    @BindView(R.id.seat_edit)
+//    EditText seatEdit;
 
     public HallFragment() {
         // Required empty public constructor
@@ -91,7 +93,7 @@ public class HallFragment extends MvpAppCompatFragment implements HallView{
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         setRetainInstance(true);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         View v = inflater.inflate(R.layout.hall_fragment, container, false);
 
         unbinder = ButterKnife.bind(this, v);
@@ -100,94 +102,132 @@ public class HallFragment extends MvpAppCompatFragment implements HallView{
         }
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        init();
-
+        //init();
+        HallFragmentArgs args = HallFragmentArgs.fromBundle(requireArguments());
+        eventTitleTxt.setText(args.getTitle());
+        presenter.onShowHallStructure(args.getEventId(), args.getHallId());
+        //v.invalidate();
         return  v;
-    }
-    //TODO implement seatLayout
-    @OnClick(R.id.confirm_btn)
-    void onConfirm(){
-        adapter.addSeat(new Seat(seatEdit.getText().toString(), rowEdit.getText().toString(), 100));
-    }
-
-    @OnClick(R.id.to_the_cart_btn)
-    void onBookTickets(){
-        Log.d(TAG, "on Pay");
-        presenter.bookTickets(adapter.getSeats());
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setTitle("TICKETS");
+    public void showHallStructure(HallStructure hallStructure, int hallId) {
+        Timber.d("Show hall structure");
+//        LinearLayout linearLayout = new HallConstructor(requireContext()).createBigHallView();
+//        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//        hallFrameLayout.addView(linearLayout);
+        List<Price> priceList = hallStructure.getPriceList();
+
+//        PriceRangesAdapter rangeAdapter = new PriceRangesAdapter(priceList,requireContext());
+//        binding.priceRanges.setAdapter(rangeAdapter);
+//        if (binding.hallScroll.getChildCount() > 0){
+//            return;
+//        }
+        HallConstructor constructor = new HallConstructor(requireContext());
+        CompoundButton.OnCheckedChangeListener listener = (buttonView, isChecked) -> {
+            Timber.d("button check changed");
+            if (isChecked){
+                boolean seatSelected = presenter.onSeatClicked(true, buttonView.getTag().toString(), adapter.getItemCount());
+                if(!seatSelected){
+                    buttonView.setChecked(false);
+                }
+                //presenter.addToSelected(buttonView.getTag().toString());
+            }else{
+                //presenter.deleteFromSelected(buttonView.getTag().toString());
+                presenter.onSeatClicked(false, buttonView.getTag().toString(), adapter.getItemCount());
+            }
+        };
+
+            if (hallId == 1) {
+                hallScroll.addView(constructor.createSmallHallView(hallStructure, listener, null));
+                //binding.getRoot().invalidate();
+            } else if (hallId == 0) {
+                hallScroll.addView(constructor.createBigHallView(hallStructure, listener, null));
+
+                //binding.getRoot().invalidate();
+            }
+        //adapter.setHallBtns(constructor.getAllButtons());
     }
+
+
+//    @OnClick(R.id.confirm_btn)
+//    void onConfirm(){
+//        adapter.addSeat(new Seat(seatEdit.getText().toString(), rowEdit.getText().toString(), 100));
+//    }
+
+    @OnClick(R.id.to_the_cart_btn)
+    void onBookTickets(){
+        Timber.d("on Pay");
+        presenter.onBookTicketsClicked(adapter.getSeats());
+    }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        getActivity().setTitle("TICKETS");
+//    }
 
     @Override
     public void onDestroyView() {
         Log.d(TAG, "on Destroy view");
         super.onDestroyView();
-        disposable.dispose();
-        if(bookingDisposable != null){
-            Log.d(TAG, "dispose booking disposable");
-            bookingDisposable.dispose();
-        }
         unbinder.unbind();
     }
 
-    private void init(){
-        Timber.d("init");
-        String id;
-        if(getArguments() == null || !getArguments().containsKey("Event id")){
-            if(presenter.getId() == null || presenter.getId().isEmpty()){
-                return;
-            }else{
-                id = presenter.getId();
-            }
-        }else{
-            id = getArguments().getString("Event id");
-        }
-        Single<HallStructure> single = presenter.getHallStructure(id, false);
-        disposable = single.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(hallStructure -> {
-                    Log.d(TAG, "on hall structure recieved: " + "event id: " + id);
-                    Map<Pair<Double, String>, List<Integer>> priceRanges = hallStructure.getPriceRanges();
-                    Map<Integer, List<String>> lockedSeats = hallStructure.getLockedSeats();
-                    for(Map.Entry<Integer, List<String>> pair : lockedSeats.entrySet()){
-                        Log.d(TAG, "locked seats: row: " + pair.getKey() + "seat:" + pair.getValue());
-                    }
-                    List<Pair<Double,  String>> priceList = hallStructure.getPriceList();
-                    for (Pair<Double, String> pair : priceList){
-                        Log.d(TAG,"price: " + pair.first + "color: " + pair.second);
-                    }
-                    if(priceList.size() > 0){
-                        highPriceTxt.setText(priceList.get(0).first.toString());
-                        highPriceTxt.setBackgroundColor(Color.parseColor(priceList.get(0).second));
-                    }
-                    if (priceList.size() > 1){
-                        middlePriceTxt.setText(priceList.get(1).first.toString());
-                        middlePriceTxt.setBackgroundColor(Color.parseColor(priceList.get(1).second));
-                    }
-                    if (priceList.size() > 2){
-                        lowPriceTxt.setText(priceList.get(2).first.toString());
-                        lowPriceTxt.setBackgroundColor(Color.parseColor(priceList.get(2).second));
-                    }
-                });
-    }
+//    private void init(){
+//        Timber.d("init");
+//        String id;
+//        if(getArguments() == null || !getArguments().containsKey("Event id")){
+//            if(presenter.getEventId() == null || presenter.getEventId().isEmpty()){
+//                return;
+//            }else{
+//                id = presenter.getEventId();
+//            }
+//        }else{
+//            id = getArguments().getString("Event id");
+//        }
+//        Single<HallStructure> single = presenter.getHallStructure(id, false);
+//        disposable = single.subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(hallStructure -> {
+//                    Log.d(TAG, "on hall structure recieved: " + "event id: " + id);
+//                    Map<Pair<Double, String>, List<Integer>> priceRanges = hallStructure.getPriceRanges();
+//                    Map<Integer, List<String>> lockedSeats = hallStructure.getLockedSeats();
+//                    for(Map.Entry<Integer, List<String>> pair : lockedSeats.entrySet()){
+//                        Log.d(TAG, "locked seats: row: " + pair.getKey() + "seat:" + pair.getValue());
+//                    }
+//                    List<Pair<Double,  String>> priceList = hallStructure.getPriceList();
+//                    for (Pair<Double, String> pair : priceList){
+//                        Log.d(TAG,"price: " + pair.first + "color: " + pair.second);
+//                    }
+//                    if(priceList.size() > 0){
+//                        highPriceTxt.setText(priceList.get(0).first.toString());
+//                        highPriceTxt.setBackgroundColor(Color.parseColor(priceList.get(0).second));
+//                    }
+//                    if (priceList.size() > 1){
+//                        middlePriceTxt.setText(priceList.get(1).first.toString());
+//                        middlePriceTxt.setBackgroundColor(Color.parseColor(priceList.get(1).second));
+//                    }
+//                    if (priceList.size() > 2){
+//                        lowPriceTxt.setText(priceList.get(2).first.toString());
+//                        lowPriceTxt.setBackgroundColor(Color.parseColor(priceList.get(2).second));
+//                    }
+//                });
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                Log.d(TAG, "back pressed");
-                getParentFragmentManager().popBackStackImmediate();
-                //getActivity().onBackPressed();
-                return true;
-            }
-            default:
-                return false;
-        }
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        switch (item.getItemId()) {
+//            case android.R.id.home: {
+//                Log.d(TAG, "back pressed");
+//                getParentFragmentManager().popBackStackImmediate();
+//                //getActivity().onBackPressed();
+//                return true;
+//            }
+//            default:
+//                return false;
+//        }
+//    }
 
     @Override
     public void showProgress() {
@@ -202,7 +242,7 @@ public class HallFragment extends MvpAppCompatFragment implements HallView{
     }
 
     @Override
-    public void showNextView(String eventId, List<Seat> seats) {
+    public void showNextView() {
         Log.d(TAG, "show next view");
 //        if(getArguments() == null || getArguments().getString("Event id") == null){
 //            return;
@@ -241,8 +281,38 @@ public class HallFragment extends MvpAppCompatFragment implements HallView{
         Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show();
     }
 
+//    @Override
+//    public void showNotificationToast(String notification) {
+//        Toast.makeText(requireContext(), notification, Toast.LENGTH_SHORT).show();
+//    }
+
+
+
     @Override
-    public void showNotificationToast(String notification) {
-        Toast.makeText(requireContext(), notification, Toast.LENGTH_SHORT).show();
+    public void showPriceList(List<Price> priceList) {
+        if(priceList.size() > 0){
+            highPriceTxt.setText(String.valueOf(priceList.get(0).getPrice()));
+            highPriceTxt.setBackgroundColor(Color.parseColor(priceList.get(0).getColor()));
+        }
+        if (priceList.size() > 1){
+            middlePriceTxt.setText(String.valueOf(priceList.get(1).getPrice()));
+            middlePriceTxt.setBackgroundColor(Color.parseColor(priceList.get(1).getColor()));
+        }
+        if (priceList.size() > 2){
+            lowPriceTxt.setText(String.valueOf(priceList.get(2).getPrice()));
+            lowPriceTxt.setBackgroundColor(Color.parseColor(priceList.get(2).getColor()));
+        }
     }
+
+    @Override
+    public void showSelectedSeatsInfo(boolean isSelected, Seat seat, double totalPrice, int totalTickets) {
+        totalPriceTxt.setText("€ " + totalPrice);
+        totalTicketsTxt.setText(totalTickets + (totalTickets%10 == 1 ? " ticket" : " tickets"));
+        if (isSelected) {
+            adapter.addSeat(seat);
+        } else {
+            adapter.removeSeat(seat);
+        }
+    }
+
 }

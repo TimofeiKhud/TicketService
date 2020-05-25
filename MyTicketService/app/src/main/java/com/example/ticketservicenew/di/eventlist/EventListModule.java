@@ -2,6 +2,7 @@ package com.example.ticketservicenew.di.eventlist;
 
 import com.example.ticketservicenew.business.eventlist.EventListInteractor;
 import com.example.ticketservicenew.business.eventlist.EventListInteractorImpl;
+import com.example.ticketservicenew.data.dto.mapper.EventBookingDtoMapper;
 import com.example.ticketservicenew.data.eventlist.EventListRepository;
 import com.example.ticketservicenew.data.eventlist.EventListRepositoryImpl;
 import com.example.ticketservicenew.data.eventlist.OnFiltersChangedListener;
@@ -18,8 +19,14 @@ public class EventListModule {
 
     @Provides
     @EventListScope
-    EventListRepository provideEventListRepo(Api api){
-        return new EventListRepositoryImpl(api);
+    EventBookingDtoMapper provideEventBookingDtoMapper(){
+        return new EventBookingDtoMapper();
+    }
+
+    @Provides
+    @EventListScope
+    EventListRepository provideEventListRepo(Api api, EventBookingDtoMapper mapper){
+        return new EventListRepositoryImpl(api, mapper);
     }
 
     @Provides

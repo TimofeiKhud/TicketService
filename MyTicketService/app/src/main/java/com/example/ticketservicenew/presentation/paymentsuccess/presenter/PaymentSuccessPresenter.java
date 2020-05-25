@@ -3,6 +3,7 @@ package com.example.ticketservicenew.presentation.paymentsuccess.presenter;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.ticketservicenew.App;
+import com.example.ticketservicenew.business.model.BookingInfo;
 import com.example.ticketservicenew.business.model.Seat;
 import com.example.ticketservicenew.business.paying.PayingInteractor;
 import com.example.ticketservicenew.business.paymentsuccess.PaymentSuccessInteractor;
@@ -26,25 +27,22 @@ public class PaymentSuccessPresenter extends MvpPresenter<PaymentSuccessView> {
         App.get().plusPaymentSuccess(new PaymentSuccessModule()).inject(this);
     }
 
-    public void setBookedSeats(String eventId, List<Seat> bookedSeats){
-        if(eventId == null){
-            return;
-        }
-        interactor.saveId(eventId);
-        if(bookedSeats == null){
-            return;
-        }
-        interactor.saveBookedSeats(bookedSeats);
+    public void onShowPaymentInfo(String eventId, String title) {
+        //interactor.saveId(eventId);
+        BookingInfo info = interactor.getPaymentInfo(eventId);
+        getViewState().showPaymentInfo(title, info);
+    }
+
+    public void onDownloadClicked() {
+        //TODO download tickets in dwg format
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        interactor.clearBookingInfo();
         App.get().clearPaymentSuccess();
     }
-
-
 
 
 }

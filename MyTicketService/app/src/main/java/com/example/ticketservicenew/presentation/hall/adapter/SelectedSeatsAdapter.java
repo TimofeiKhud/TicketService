@@ -57,6 +57,20 @@ List<Seat> seats;
         notifyDataSetChanged();
     }
 
+    public void removeSeat(Seat seat) {
+        int position = 0;
+        for (Seat s : seats){
+            if(s.getRow().equals(seat.getRow()) && s.getSeatNum().equals(seat.getSeatNum())){
+                seats.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, seats.size());
+                break;
+            }
+            position++;
+        }
+        notifyDataSetChanged();
+    }
+
     public List<Seat> getSeats(){
         return seats;
     }

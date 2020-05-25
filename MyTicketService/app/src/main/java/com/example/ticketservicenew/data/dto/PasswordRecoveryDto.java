@@ -1,7 +1,7 @@
 package com.example.ticketservicenew.data.dto;
 
 public class PasswordRecoveryDto {
-    String email;
+    public String email;
 
     public PasswordRecoveryDto(String email) {
         this.email = email;

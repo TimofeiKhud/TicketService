@@ -7,5 +7,10 @@ import io.reactivex.Single;
 
 public interface EventRepository {
     Single<Event> getEvent(String id);
-    Single<EventInfo> getEventInfo(String id);
+    Single<EventInfo> getEventInfo();
+    void saveEventId(String eventId);
+    String getEventId();
+
+    void saveHallId(int hall);
+    int getHallId();
 }

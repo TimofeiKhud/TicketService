@@ -3,10 +3,11 @@ package com.example.ticketservicenew.data.provider.store;
 import com.example.ticketservicenew.business.model.Seat;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface StoreProvider {
-    public static final int TIME_NOT_SET = -1;
+     int TIME_NOT_SET = -1;
 
     boolean saveToken(String token);
     String getToken();
@@ -16,11 +17,15 @@ public interface StoreProvider {
     String getUserName();
     boolean clearUserName();
 
-    boolean saveBookingTime(String eventId, long time);
-    long getBookingTime(String eventId);
-    boolean clearBookingTime();
+    boolean saveBookingInfo(String eventId, long time, double price);
+    String getEventId();
+    double getTotalPrice();
+    int getTotalTicketsNum();
 
-    boolean saveBookingInfo(String eventId, Set<String> seats);
-    Set<String> getBookingInfo(String eventId);
-    boolean clearBookingInfo();
+
+    boolean saveBookedTickets(String eventId, Set<String> seats);
+    Set<String> getBookedTickets(String eventId);
+
+    boolean clearBooking();
+
 }

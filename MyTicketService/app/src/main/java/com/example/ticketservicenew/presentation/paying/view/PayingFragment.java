@@ -19,12 +19,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.ticketservicenew.R;
+import com.example.ticketservicenew.business.model.BookingInfo;
 import com.example.ticketservicenew.business.model.HallStructure;
 import com.example.ticketservicenew.business.model.Seat;
 import com.example.ticketservicenew.presentation.hall.adapter.SelectedSeatsAdapter;
@@ -80,6 +82,8 @@ public class PayingFragment extends MvpAppCompatFragment implements PayingView {
     TextView totalTicketsTxt;
     @BindView(R.id.pay_btn)
     Button payBtn;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     public PayingFragment() {
         // Required empty public constructor
@@ -93,28 +97,29 @@ public class PayingFragment extends MvpAppCompatFragment implements PayingView {
         View v = inflater.inflate(R.layout.fragment_paying, container, false);
         unbinder = ButterKnife.bind(this, v);
         setHasOptionsMenu(true);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        List<Seat> bookedSeats = new ArrayList<>();
-        int totalTickets = 0;
-        for(int i = 0; i < 30; i++){
-            if(getArguments().keySet().contains(Integer.toString(i))){
-                for(String seat : getArguments().getStringArrayList(String.valueOf(i))){
-                    Log.d(TAG, "seat: " + seat + "row: " + i);
-                    totalTickets++;
-                    bookedSeats.add(new Seat(seat, Integer.toString(i)));
-                }
-            }
-        }
-        presenter.setBookedSeats(getArguments().getString("Event id"), bookedSeats);
-        totalPriceTxt.setText("€" + getArguments().getDouble("Total price"));
-        totalTicketsTxt.setText(totalTickets + "tickets");
+//        List<Seat> bookedSeats = new ArrayList<>();
+//        int totalTickets = 0;
+//        for(int i = 0; i < 30; i++){
+//            if(getArguments().keySet().contains(Integer.toString(i))){
+//                for(String seat : getArguments().getStringArrayList(String.valueOf(i))){
+//                    Log.d(TAG, "seat: " + seat + "row: " + i);
+//                    totalTickets++;
+//                    bookedSeats.add(new Seat(seat, Integer.toString(i)));
+//                }
+//            }
+//        }
+//        presenter.setBookedSeats(getArguments().getString("Event id"), bookedSeats);
+//        totalPriceTxt.setText("€" + getArguments().getDouble("Total price"));
+//        totalTicketsTxt.setText(totalTickets + "tickets");
 
+        PayingFragmentArgs args = PayingFragmentArgs.fromBundle(requireArguments());
+        presenter.onShowBookingInfo(args.getEventId(), args.getTitle());
         //Start PayPal Service
         Intent intent = new Intent(requireContext(), PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
         requireActivity().startService(intent);
-
         return  v;
     }
 
@@ -129,11 +134,11 @@ public class PayingFragment extends MvpAppCompatFragment implements PayingView {
         processPayment();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setTitle("PAYING");
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        getActivity().setTitle("PAYING");
+//    }
 
     @Override
     public void onDestroyView() {
@@ -141,48 +146,70 @@ public class PayingFragment extends MvpAppCompatFragment implements PayingView {
         unbinder.unbind();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                Log.d(TAG, "back pressed");
-                getParentFragmentManager().popBackStackImmediate();
-                return true;
-            }
-            default:
-                return false;
-        }
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        switch (item.getItemId()) {
+//            case android.R.id.home: {
+//                Log.d(TAG, "back pressed");
+//                getParentFragmentManager().popBackStackImmediate();
+//                return true;
+//            }
+//            default:
+//                return false;
+//        }
+//    }
 
     @Override
-    public void showNextView(String id, List<Seat> seats) {
-        Bundle bundle = new Bundle();
+    public void showNextView(String eventId) {
+  //      Bundle bundle = new Bundle();
 
-        double totalPrice = getArguments().getDouble("Total price");
-        bundle.putDouble("Total price", totalPrice);
-        bundle.putString("Event id", id);
-        for(Seat seat : seats){
-            ArrayList<String> seatList = bundle.keySet().contains(seat.getRow()) && bundle.getStringArrayList(seat.getRow()) != null ?
-                    bundle.getStringArrayList(seat.getRow()) : new ArrayList<>();
-            seatList.add(seat.getSeatNum());
-            bundle.putStringArrayList(seat.getRow(), seatList);
-        }
-
-        PaymentSuccessFragment paymentSuccessFragment = new PaymentSuccessFragment();
-        paymentSuccessFragment.setArguments(bundle);
+//        double totalPrice = getArguments().getDouble("Total price");
+//        bundle.putDouble("Total price", totalPrice);
+//        bundle.putString("Event id", id);
+//        for(Seat seat : seats){
+//            ArrayList<String> seatList = bundle.keySet().contains(seat.getRow()) && bundle.getStringArrayList(seat.getRow()) != null ?
+//                    bundle.getStringArrayList(seat.getRow()) : new ArrayList<>();
+//            seatList.add(seat.getSeatNum());
+//            bundle.putStringArrayList(seat.getRow(), seatList);
+//        }
+//
+//        PaymentSuccessFragment paymentSuccessFragment = new PaymentSuccessFragment();
+//        paymentSuccessFragment.setArguments(bundle);
 //        getParentFragmentManager().beginTransaction()
 //                .replace(R.id.fragment_container, paymentSuccessFragment)
 //                .addToBackStack(TAG)
 //                .commit();
+        Navigation.findNavController(getView())
+                .navigate(PayingFragmentDirections.actionPayingFragmentToPaymentSuccessFragment(eventId, titleTxt.getText().toString()));
     }
 
     @Override
     public void showError(String error) {
+        Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    public void showBookingInfo(String title, BookingInfo info) {
+        titleTxt.setText(title);
+        int totalTickets = info.getNumTicketsBooked();
+        totalTicketsTxt.setText(totalTickets + (totalTickets%10 == 1 ? " ticket" : " tickets"));
+        totalPriceTxt.setText("€ " + info.getTotalPrice());
+    }
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
     }
 
     private void processPayment(){
-        double amount = getArguments().getDouble("Total price");
+        //double amount = getArguments().getDouble("Total price");
+        PayingFragmentArgs args = PayingFragmentArgs.fromBundle(requireArguments());
+        double amount = presenter.getTotalPrice();
         PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(String.valueOf(amount)),
                 "EUR",
                 "Buy tickets",
@@ -204,11 +231,13 @@ public class PayingFragment extends MvpAppCompatFragment implements PayingView {
                         Log.d(TAG, "Payment success");
                         String paymentDetails = confirmation.toJSONObject().toString(4);
 
-                        Bundle bundle = new Bundle();
-                        bundle.putString("Payment Details", paymentDetails);
-                        bundle.putDouble("Payment Amount", getArguments().getDouble("Total price"));
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("Payment Details", paymentDetails);
+//                        bundle.putDouble("Payment Amount", getArguments().getDouble("Total price"));
                         Log.d(TAG, "payment details: " + paymentDetails);
                         presenter.onPaymentSuccess();
+
+
                         //        bundle.putString("Event id", getArguments().getString("Event id"));
 //        bundle.putDouble("Total price", totalPrice);
 //

@@ -6,7 +6,7 @@ public class EventInfo {
     private double minPrice;
     private int restTick;
 
-    public EventInfo(String eventId, double maxPrice, double minPrice, int restTick) {
+    public EventInfo(String eventId, double minPrice, double maxPrice, int restTick) {
         this.eventId = eventId;
         this.maxPrice = maxPrice;
         this.minPrice = minPrice;

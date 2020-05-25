@@ -107,12 +107,7 @@ public class EventListAdapterImpl extends PagedListAdapter<Event, EventListAdapt
         if (images > 0) {
             Picasso.get().load(current.getImages().get(0)).fit().into(holder.eventImg);
         }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.showEvent(current);
-            }
-        });
+        holder.itemView.setOnClickListener(v -> listener.showEvent(current.getEventId()));
     }
 
 //    @Override

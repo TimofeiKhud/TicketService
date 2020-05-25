@@ -79,8 +79,8 @@
      ticket have been sentto your email.
      We wish you a pleasant time
      at our . . .</string>
-    <string name="tickets_available">\"Tickets available - \"</string>
-
+    <string name="tickets_available">Tickets available: </string>
+    <string name="empty_cart">Your shopping cart is empty</string>
 
     <!-- Toast text-->
 

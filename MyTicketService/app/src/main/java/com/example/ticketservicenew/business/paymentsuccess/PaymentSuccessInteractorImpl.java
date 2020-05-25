@@ -1,5 +1,7 @@
 package com.example.ticketservicenew.business.paymentsuccess;
 
+import com.example.ticketservicenew.business.model.BookingInfo;
+import com.example.ticketservicenew.business.model.LockedSeats;
 import com.example.ticketservicenew.business.model.Seat;
 import com.example.ticketservicenew.data.paymentsuccess.PaymentSuccesRepository;
 
@@ -19,17 +21,27 @@ public class PaymentSuccessInteractorImpl implements PaymentSuccessInteractor{
     }
 
     @Override
-    public List<Seat> getBookedSeats() {
-        return repository.getBookedSeats();
+    public List<LockedSeats> getSoldSeats() {
+        return repository.getSoldSeats();
+    }
+
+//    @Override
+//    public void saveId(String eventId) {
+//        repository.saveId(eventId);
+//    }
+
+//    @Override
+//    public void saveBookedSeats(List<Seat> seats) {
+//        repository.saveBookedSeats(seats);
+//    }
+
+    @Override
+    public BookingInfo getPaymentInfo(String eventId) {
+        return repository.getPaymentInfo(eventId);
     }
 
     @Override
-    public void saveId(String eventId) {
-        repository.saveId(eventId);
-    }
-
-    @Override
-    public void saveBookedSeats(List<Seat> seats) {
-        repository.saveBookedSeats(seats);
+    public void clearBookingInfo() {
+        repository.clearBookingInfo();
     }
 }
