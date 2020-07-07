@@ -23,6 +23,13 @@
         <item name="android:textSize">@dimen/common_text_size</item>
     </style>
 
+    <!--  Drawer menu items style  -->
+    <style name="DrawerMenuItemStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/dinpro_black</item>
+        <item name="android:textSize">@dimen/common_text_size</item> //size of font
+        <item name="android:textColor">@color/white_color</item> //color of font
+    </style>
+
     <!--  Up button style  -->
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@color/dark_grey_color</item>

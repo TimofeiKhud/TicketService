@@ -132,4 +132,9 @@
             android:id="@+id/action_paymentSuccessFragment_to_eventListFragment"
             app:destination="@id/eventListFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/hallSchemeFragment"
+        android:name="com.example.ticketservicenew.presentation.hallscheme.view.HallSchemeFragment"
+        android:label="@string/halls_scheme"
+        tools:layout="@layout/fragment_hall_scheme" />
 </navigation>

@@ -90,7 +90,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/types_lyout"
+        app:layout_constraintStart_toEndOf="@+id/types_layout"
         app:layout_constraintTop_toBottomOf="@+id/calendar_layout">
 
         <com.squareup.timessquare.CalendarPickerView
@@ -127,7 +127,7 @@
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
     <LinearLayout
-        android:id="@+id/types_lyout"
+        android:id="@+id/types_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/double_margin"

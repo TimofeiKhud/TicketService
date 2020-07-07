@@ -12,7 +12,7 @@
         android:id="@+id/shoppingCartFragment"
         android:title="@string/shopping_cart" />
     <item
-        android:id="@+id/hallLayoutFragment"
+        android:id="@+id/hallSchemeFragment"
         android:title="@string/halls_scheme" />
     <item
         android:id="@+id/infoFragment"

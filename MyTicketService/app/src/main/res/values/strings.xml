@@ -75,12 +75,21 @@
     <string name="notification">The tickets shown here have now been
      reserved for you for 10 minutes.</string>
     <string name="payment_success_congrats">Congratulations!
-     You’ve successfuly payed. Your PDF
-     ticket have been sentto your email.
+     You’ve successfully paid. Your PDF
+     ticket have been sent to your email.
      We wish you a pleasant time
      at our . . .</string>
     <string name="tickets_available">Tickets available: </string>
     <string name="empty_cart">Your shopping cart is empty</string>
+    <string name="contacts_info">\n Berlin City Hall\n
+        Freudstrasse 69, 10117 Berlin\n
+        Tel.: 030 2223344\n
+        Fax: 030 2223355\n
+        E-Mail: info@bch.de</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Toast text-->
 
