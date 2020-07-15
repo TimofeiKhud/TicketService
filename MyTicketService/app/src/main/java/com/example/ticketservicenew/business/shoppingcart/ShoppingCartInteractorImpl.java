@@ -12,7 +12,7 @@ import io.reactivex.Single;
 
 public class ShoppingCartInteractorImpl implements ShoppingCartInteractor{
     private static final String TAG = ShoppingCartInteractorImpl.class.getName();
-ShoppingCartRepository repository;
+    ShoppingCartRepository repository;
 
     public ShoppingCartInteractorImpl(ShoppingCartRepository repository) {
         this.repository = repository;
@@ -38,38 +38,4 @@ ShoppingCartRepository repository;
         return repository.getEvent();
     }
 
-//    @Override
-//    public int getNumTicketsBooked() {
-////        int totalNum = 0;
-////        for(BookingInfo info : repository.getBookingInfo()){
-////            totalNum += info.getNumTicketsBooked();
-////        }
-////        return totalNum;
-//        return  repository.getTotalTicketsNum();
-//    }
-
-//    @Override
-//    public double getTotalPrice() {
-//        return repository.getTotalPrice();
-//    }
-
-//    @Override
-//    public void saveId(String eventId) {
-//        repository.saveId(eventId);
-//    }
-//
-//    @Override
-//    public void saveBookedSeats(List<Seat> seats) {
-//        repository.saveBookedSeats(seats);
-//    }
-//
-//    @Override
-//    public String getEventId() {
-//        return repository.getId();
-//    }
-//
-//    @Override
-//    public List<Seat> getBookedSeats() {
-//        return repository.getBookedSeats();
-//    }
 }

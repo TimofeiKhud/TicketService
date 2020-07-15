@@ -15,9 +15,9 @@ import java.util.Observer;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 public class EventListDataSource extends PositionalDataSource<Event> implements OnFiltersChangedListener {
-    private static final String TAG = EventListDataSource.class.getName();
 private EventListRepository repository;
 private int sourceIndex;
 private CompositeDisposable compositeDisposable;
@@ -32,7 +32,6 @@ private CompositeDisposable compositeDisposable;
     @SuppressLint("CheckResult")
     @Override
     public void loadInitial(@NonNull LoadInitialParams params, @NonNull LoadInitialCallback<Event> callback) {
-        Log.d(TAG, "loadInitial: start: " + params.requestedStartPosition +  "page number: " + sourceIndex + " size: " + params.requestedLoadSize);
         repository.onInitialLoading();
         repository.getEvents(sourceIndex++, params.requestedLoadSize)
                 .doOnSubscribe(disposable ->
@@ -40,13 +39,10 @@ private CompositeDisposable compositeDisposable;
                     compositeDisposable.add(disposable);
                 })
                 .subscribe(events -> {
-                    for(Event event : events){
-                        Log.d(TAG, "load initial: " + event.getArtist());
-                    }
                             callback.onResult(events, 0);
                         },
                         throwable ->
-                                Log.d(TAG, throwable.getMessage())
+                                Timber.d(throwable.getMessage())
                 );
     }
 
@@ -54,21 +50,14 @@ private CompositeDisposable compositeDisposable;
     @SuppressLint("CheckResult")
     @Override
     public void loadRange(@NonNull LoadRangeParams params, @NonNull LoadRangeCallback<Event> callback) {
-        Log.d(TAG, "loadRange: start: " + params.startPosition + "page number: " + sourceIndex + " size: " + params.loadSize);
         repository.getEvents(sourceIndex++, params.loadSize)
                 .doOnSubscribe(disposable ->
                 {
                     compositeDisposable.add(disposable);
-                    //progressLiveStatus.postValue(Constant.LOADING);
                 })
-                .subscribe(events -> {
-                            for(Event event : events){
-                                Log.d(TAG, "load range: " + event.getArtist());
-                            }
-                            callback.onResult(events);
-                        },
+                .subscribe(callback::onResult,
                         throwable ->
-                                Log.d(TAG, throwable.getMessage())
+                                Timber.d(throwable.getMessage())
                 );
     }
 

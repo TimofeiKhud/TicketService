@@ -52,19 +52,7 @@ public class HallRepositoryImpl implements HallRepository {
     @Override
     public Completable onSeatsBooking(List<LockedSeats> seats) {
         EventBookingDto request = mapSeatsListToDto(seats);
-        //return Completable.fromSingle(api.bookSeats(request).doOnSuccess(this::onSeatsBookedSuccess).doOnError(error->{Log.d(TAG, error.getMessage());}));
         return Completable.fromSingle(api.bookSeats(request));
-//                .doOnComplete(() -> {
-//                    double totalPrice = 0;
-//                    for(Seat seat : seats){
-//                        totalPrice += seat.getPrice();
-//                    }
-//                    storeProvider.saveBookingInfo(eventId, new Date().getTime(), totalPrice);
-//                    storeProvider.saveBookedTickets(eventId, mapModelToStoreProviderObj(seats));
-//                })
-//                .doOnError(error -> {
-//                    Timber.d(error.getMessage());
-//                });
     }
 
     @Override
@@ -109,45 +97,6 @@ public class HallRepositoryImpl implements HallRepository {
         this.eventId = eventId;
     }
 
-//    @Nullable
-//    @Override
-//    public BookingInfo getCurrentBookingInfo(String eventId) {
-//        Set<String> bookedTickets = storeProvider.getBookedTickets(eventId);
-//        if(bookedTickets == null){
-//            return null;
-//        }
-//        List<LockedSeats> lockedSeats = new ArrayList<>();
-//
-//    }
-
-//    @Override
-//    public Map<String, List<String>> getBookedSeats(String eventId) {
-//        if(storeProvider.getBookingTime(eventId) == StoreProvider.TIME_NOT_SET){
-//            return null;
-//        }
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(new Date(storeProvider.getBookingTime(eventId)));
-//        calendar.add(Calendar.MINUTE, 10);
-//        long currentTime = new Date().getTime();
-//        if(currentTime > calendar.getTimeInMillis()){
-//            storeProvider.clearBookingTime();
-//            storeProvider.clearBookingInfo();
-//            return null;
-//        }else{
-//            return mapStringToSeats(storeProvider.getBookingInfo(eventId));
-//        }
-//    }
-
-//    @Override
-//    public void saveEventId(String eventId) {
-//        this.eventId = eventId;
-//    }
-
-//    @Override
-//    public void saveHallStructure(HallStructure hallStructure) {
-//        this.hallStructure = hallStructure;
-//    }
-
     @Override
     public List<Price> getPriceList() {
         return priceList;
@@ -185,29 +134,13 @@ public class HallRepositoryImpl implements HallRepository {
         for(LockedSeats lockedSeats : seats){
             bookedSeats.put(lockedSeats.getRow(), lockedSeats.getSeats());
         }
-//        for(Seat seat : seats){
-//            Timber.d("hallInteractor, seat to book:%s", seat.toString());
-//            if(bookedSeats.containsKey(seat.getRow())){
-//                List<String> seatList = bookedSeats.get(seat.getRow());
-//                //if(!seatList.contains(seat.getSeatNum())) {
-//                seatList.add(seat.getSeatNum());
-//                //}
-//                bookedSeats.put(seat.getRow(), seatList);
-//            }else{
-//                List<String> list = new ArrayList<>();
-//                list.add(seat.getSeatNum());
-//                bookedSeats.put(seat.getRow(), list);
-//            }
-//        }
+
         List<Map<String, List<String>>> list = new ArrayList<>();
         list.add(bookedSeats);
         return new EventBookingDto(eventId, list);
     }
 
     private HallStructure mapHallStructureDtoToModel(HallStructureDto dto) {
-        //Map<Pair<Double, String>, List<Integer>> priceRanges = new HashMap<>();
-        //Map<Integer, List<String>> lockedSeats = new HashMap<>();
-        //List<Pair<Double, String>> priceList = new ArrayList<>();
         List<Price> priceList = new ArrayList<>();
         List<LockedSeats> lockedSeats = new ArrayList<>();
         List<LockedSeatsDto> lockedSeatsList = dto.getLockedSeats();
@@ -234,24 +167,4 @@ public class HallRepositoryImpl implements HallRepository {
         }
         return res;
     }
-
-//    private Map<String, List<String>> mapStoreProviderObjToModel(Set<String> set){
-//        Map<String, List<String>> res = new TreeMap<>();
-//        for(String s : set){
-//            String[] seat = s.split(",");
-//
-//                if(res.containsKey(seat[0])){
-//                    List<String> seatList = res.get(seat[0]);
-//                    seatList.add(seat[1]);
-//                    res.put(seat[0], seatList);
-//                }else{
-//                    List<String> list = new ArrayList<>();
-//                    list.add(seat[1]);
-//                    res.put(seat[0], list);
-//                }
-//            }
-//        return res;
-//        }
-
-
 }

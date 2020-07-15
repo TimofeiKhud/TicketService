@@ -14,7 +14,6 @@ import io.reactivex.Single;
 import retrofit2.Response;
 
 public class EventRepositoryImpl implements EventRepository{
-    public static final String TAG = EventRepositoryImpl.class.getName();
     private Api api;
     private String eventId;
     private int hallId;
@@ -26,7 +25,6 @@ public class EventRepositoryImpl implements EventRepository{
     @Override
     public Single<Event> getEvent(String id) {
         return api.getEvent(id).flatMap(this::onGetEventSuccess).map(this::mapEventDtoToModel);
-        //return null;
     }
 
     @Override
@@ -56,11 +54,9 @@ public class EventRepositoryImpl implements EventRepository{
 
     private Single<EventOutputDto> onGetEventSuccess(Response<EventOutputDto> response) throws IOException {
             if (response.isSuccessful()){
-                Log.d(TAG, "onGetEventSuccess: " + response.body());
                 EventOutputDto event = response.body();
                 return Single.just(event);
             }else {
-                Log.d(TAG, "onGetEventSuccess: " + response.errorBody().string());
                 throw new RuntimeException("Server error! Call to support");
             }
     }
@@ -82,11 +78,9 @@ public class EventRepositoryImpl implements EventRepository{
 
     private Single<RestTicketsDto> onGetEventInfoSuccess(Response<RestTicketsDto> response) throws IOException {
         if (response.isSuccessful()){
-            Log.d(TAG, "onGetEventInfoSuccess: " + response.body());
             RestTicketsDto eventInfo = response.body();
             return Single.just(eventInfo);
         }else {
-            Log.d(TAG, "onGetEventInfoSuccess: " + response.errorBody().string());
             throw new RuntimeException("Server error! Call to support");
         }
     }

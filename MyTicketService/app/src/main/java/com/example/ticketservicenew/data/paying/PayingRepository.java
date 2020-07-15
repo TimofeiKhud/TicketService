@@ -12,11 +12,7 @@ public interface PayingRepository {
 
     Completable sellTickets();
 
-    //void saveBookedSeats(List<Seat> seats);
-
     List<LockedSeats> getBookedSeats();
-
-//    void saveId(String eventId);
 
     String getEventId();
 

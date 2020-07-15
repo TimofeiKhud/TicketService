@@ -18,7 +18,7 @@ public class EventOutputDto {
     public int eventType;
     public String description;
     public List<String> images;
-    public Set<PriceRanges> priceRanges; // TODO create priceranges class, it it really a set?
+    public Set<PriceRanges> priceRanges;
     public Set<String> managers;
 
     public EventOutputDto() {

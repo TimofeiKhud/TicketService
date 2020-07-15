@@ -93,7 +93,6 @@ public class HallFragment extends MvpAppCompatFragment implements HallView{
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         setRetainInstance(true);
-        //((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         View v = inflater.inflate(R.layout.hall_fragment, container, false);
 
         unbinder = ButterKnife.bind(this, v);
@@ -102,27 +101,16 @@ public class HallFragment extends MvpAppCompatFragment implements HallView{
         }
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        //init();
         HallFragmentArgs args = HallFragmentArgs.fromBundle(requireArguments());
         eventTitleTxt.setText(args.getTitle());
         presenter.onShowHallStructure(args.getEventId(), args.getHallId());
-        //v.invalidate();
         return  v;
     }
 
     @Override
     public void showHallStructure(HallStructure hallStructure, int hallId) {
         Timber.d("Show hall structure");
-//        LinearLayout linearLayout = new HallConstructor(requireContext()).createBigHallView();
-//        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//        hallFrameLayout.addView(linearLayout);
         List<Price> priceList = hallStructure.getPriceList();
-
-//        PriceRangesAdapter rangeAdapter = new PriceRangesAdapter(priceList,requireContext());
-//        binding.priceRanges.setAdapter(rangeAdapter);
-//        if (binding.hallScroll.getChildCount() > 0){
-//            return;
-//        }
         HallConstructor constructor = new HallConstructor(requireContext());
         CompoundButton.OnCheckedChangeListener listener = (buttonView, isChecked) -> {
             Timber.d("button check changed");
@@ -131,29 +119,17 @@ public class HallFragment extends MvpAppCompatFragment implements HallView{
                 if(!seatSelected){
                     buttonView.setChecked(false);
                 }
-                //presenter.addToSelected(buttonView.getTag().toString());
             }else{
-                //presenter.deleteFromSelected(buttonView.getTag().toString());
                 presenter.onSeatClicked(false, buttonView.getTag().toString(), adapter.getItemCount());
             }
         };
 
             if (hallId == 1) {
                 hallScroll.addView(constructor.createSmallHallView(hallStructure, listener, null));
-                //binding.getRoot().invalidate();
             } else if (hallId == 0) {
                 hallScroll.addView(constructor.createBigHallView(hallStructure, listener, null));
-
-                //binding.getRoot().invalidate();
             }
-        //adapter.setHallBtns(constructor.getAllButtons());
     }
-
-
-//    @OnClick(R.id.confirm_btn)
-//    void onConfirm(){
-//        adapter.addSeat(new Seat(seatEdit.getText().toString(), rowEdit.getText().toString(), 100));
-//    }
 
     @OnClick(R.id.to_the_cart_btn)
     void onBookTickets(){
@@ -161,73 +137,12 @@ public class HallFragment extends MvpAppCompatFragment implements HallView{
         presenter.onBookTicketsClicked(adapter.getSeats());
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        getActivity().setTitle("TICKETS");
-//    }
-
     @Override
     public void onDestroyView() {
         Log.d(TAG, "on Destroy view");
         super.onDestroyView();
         unbinder.unbind();
     }
-
-//    private void init(){
-//        Timber.d("init");
-//        String id;
-//        if(getArguments() == null || !getArguments().containsKey("Event id")){
-//            if(presenter.getEventId() == null || presenter.getEventId().isEmpty()){
-//                return;
-//            }else{
-//                id = presenter.getEventId();
-//            }
-//        }else{
-//            id = getArguments().getString("Event id");
-//        }
-//        Single<HallStructure> single = presenter.getHallStructure(id, false);
-//        disposable = single.subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(hallStructure -> {
-//                    Log.d(TAG, "on hall structure recieved: " + "event id: " + id);
-//                    Map<Pair<Double, String>, List<Integer>> priceRanges = hallStructure.getPriceRanges();
-//                    Map<Integer, List<String>> lockedSeats = hallStructure.getLockedSeats();
-//                    for(Map.Entry<Integer, List<String>> pair : lockedSeats.entrySet()){
-//                        Log.d(TAG, "locked seats: row: " + pair.getKey() + "seat:" + pair.getValue());
-//                    }
-//                    List<Pair<Double,  String>> priceList = hallStructure.getPriceList();
-//                    for (Pair<Double, String> pair : priceList){
-//                        Log.d(TAG,"price: " + pair.first + "color: " + pair.second);
-//                    }
-//                    if(priceList.size() > 0){
-//                        highPriceTxt.setText(priceList.get(0).first.toString());
-//                        highPriceTxt.setBackgroundColor(Color.parseColor(priceList.get(0).second));
-//                    }
-//                    if (priceList.size() > 1){
-//                        middlePriceTxt.setText(priceList.get(1).first.toString());
-//                        middlePriceTxt.setBackgroundColor(Color.parseColor(priceList.get(1).second));
-//                    }
-//                    if (priceList.size() > 2){
-//                        lowPriceTxt.setText(priceList.get(2).first.toString());
-//                        lowPriceTxt.setBackgroundColor(Color.parseColor(priceList.get(2).second));
-//                    }
-//                });
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home: {
-//                Log.d(TAG, "back pressed");
-//                getParentFragmentManager().popBackStackImmediate();
-//                //getActivity().onBackPressed();
-//                return true;
-//            }
-//            default:
-//                return false;
-//        }
-//    }
 
     @Override
     public void showProgress() {
@@ -243,50 +158,13 @@ public class HallFragment extends MvpAppCompatFragment implements HallView{
 
     @Override
     public void showNextView() {
-        Log.d(TAG, "show next view");
-//        if(getArguments() == null || getArguments().getString("Event id") == null){
-//            return;
-//        }
-        //Bundle bundle = new Bundle();
-        //double totalPrice = 0;
-//        for(Seat seat : seats){
-//            //totalPrice += seat.getPrice();
-//            ArrayList<String> seatsList = bundle.keySet().contains(seat.getRow()) && bundle.getStringArrayList(seat.getRow()) != null ?
-//                    bundle.getStringArrayList(seat.getRow()) : new ArrayList<>();
-//            seatsList.add(seat.getSeatNum());
-//            bundle.putStringArrayList(seat.getRow(), seatsList);
-//        }
-//        for(int i = 0; i < 30; i++){
-//            if(bundle.keySet().contains(Integer.toString(i))){
-//                for(String seat : bundle.getStringArrayList(String.valueOf(i))){
-//                    Log.d(TAG, "seat: " + seat + "row: " + i);
-//                    Timber.d("seat: " + seat + "row: " + i);
-//                }
-//            }
-//        }
-        //bundle.putString("Event id", getArguments().getString("Event id"));
-        //bundle.putDouble("Total price", totalPrice);
         Navigation.findNavController(getView()).navigate(HallFragmentDirections.actionHallFragmentToShoppingCartFragment());
-
-//        ShoppingCartFragment shoppingCartFragment = new ShoppingCartFragment();
-//        shoppingCartFragment.setArguments(bundle);
-//        getParentFragmentManager().beginTransaction()
-//                .replace(R.id.fragment_container, shoppingCartFragment)
-//                .addToBackStack(TAG)
-//                .commit();
     }
 
     @Override
     public void showError(String error) {
         Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show();
     }
-
-//    @Override
-//    public void showNotificationToast(String notification) {
-//        Toast.makeText(requireContext(), notification, Toast.LENGTH_SHORT).show();
-//    }
-
-
 
     @Override
     public void showPriceList(List<Price> priceList) {
@@ -314,5 +192,4 @@ public class HallFragment extends MvpAppCompatFragment implements HallView{
             adapter.removeSeat(seat);
         }
     }
-
 }

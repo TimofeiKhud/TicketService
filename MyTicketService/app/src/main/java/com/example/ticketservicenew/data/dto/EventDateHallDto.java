@@ -3,10 +3,8 @@ package com.example.ticketservicenew.data.dto;
 import java.util.List;
 
 public class EventDateHallDto {
-    public long dateFrom; // 64-bit integer
-    public long dateTo;// $int64
-
-    //TODO wtf is int64
+    public long dateFrom;
+    public long dateTo;
 
     public EventDateHallDto(long dateFrom, long dateTo) {
         this.dateFrom = dateFrom;

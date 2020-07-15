@@ -13,10 +13,6 @@ public interface PayingInteractor {
 
     List<LockedSeats> getBookedSeats();
 
-//    void saveId(String eventId);
-
-    //void saveBookedSeats(List<Seat> seats);
-
     Completable sellTickets();
 
     BookingInfo getBookingInfo(String eventId);

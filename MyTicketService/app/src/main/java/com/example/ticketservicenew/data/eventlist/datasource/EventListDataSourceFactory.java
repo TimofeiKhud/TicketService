@@ -6,6 +6,8 @@ import androidx.paging.DataSource;
 import com.example.ticketservicenew.business.model.Event;
 import com.example.ticketservicenew.data.eventlist.EventListRepository;
 
+import org.jetbrains.annotations.NotNull;
+
 import io.reactivex.disposables.CompositeDisposable;
 
 public class EventListDataSourceFactory extends DataSource.Factory<Integer, Event> {
@@ -18,6 +20,7 @@ public class EventListDataSourceFactory extends DataSource.Factory<Integer, Even
 
     }
 
+    @NotNull
     @Override
     public DataSource<Integer, Event> create() {
         return new EventListDataSource(repository, compositeDisposable);

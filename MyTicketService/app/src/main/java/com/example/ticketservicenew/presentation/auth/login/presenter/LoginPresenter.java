@@ -19,7 +19,6 @@ public class LoginPresenter extends MvpPresenter<AuthView> {
     @Inject
     LoginInteractor interactor;
     Disposable disposable;
-    //private boolean loginState;
 
     public LoginPresenter() {
         App.get().plusLogin(new LoginModule()).inject(this);
@@ -40,7 +39,6 @@ public class LoginPresenter extends MvpPresenter<AuthView> {
     public void onSuccess(String userName){
         interactor.saveUserName(userName);
         getViewState().hideProgress();
-        //loginState = true;
         getViewState().showRegisteredUserState(userName);
     }
 
@@ -59,14 +57,9 @@ public class LoginPresenter extends MvpPresenter<AuthView> {
     }
 
     public void onLogout() {
-        //loginState = false;
         interactor.onLogout();
         getViewState().showNotRegisteredUserState();
     }
-
-    //public boolean isLoginState(){
-     //   return loginState;
-    //}
 
     public void onSetLoginState(){
         String userName = interactor.getUserName();
@@ -75,6 +68,9 @@ public class LoginPresenter extends MvpPresenter<AuthView> {
         }else{
             getViewState().showRegisteredUserState(userName);
         }
+    }
 
+    public void onRegistrationClicked() {
+        getViewState().showNextView();
     }
 }

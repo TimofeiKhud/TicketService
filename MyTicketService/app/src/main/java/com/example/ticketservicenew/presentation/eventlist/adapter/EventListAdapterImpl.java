@@ -29,47 +29,11 @@ public class EventListAdapterImpl extends PagedListAdapter<Event, EventListAdapt
     public static final String TAG = "Event list adapter";
     private OnEventListAdapterListener listener;
 
-//    private Filter filterByArtist;
     public EventListAdapterImpl(@NonNull DiffUtil.ItemCallback<Event> diffCallback, OnEventListAdapterListener listener) {
         super(diffCallback);
         this.listener = listener;
-//        filterByArtist = new Filter() {
-//            @Override
-//            protected FilterResults performFiltering(CharSequence constraint) {
-//                FilterResults results = new FilterResults();
-//                if(constraint == null || constraint.length() == 0){
-//                    results.values = getCurrentList();
-//                    return results;
-//                }else{
-//                    List<Event> filteredList = new ArrayList<>();
-//                    String filterPattern = constraint.toString().toLowerCase().trim();
-//                    for(Event event : getCurrentList()){
-//                        if(event.getArtist() != null && event.getArtist().toLowerCase().startsWith(filterPattern)){
-//                            filteredList.add(event);
-//                        }
-//                    }
-//
-//                    results.values = filteredList;
-//                    return results;
-//                }
-//            }
 
-//            @Override
-//            protected void publishResults(CharSequence constraint, FilterResults results) {
-//                if(results == null){
-//                    return;
-//                }
-//                submitList((PagedList)results.values);
-//                Log.d(TAG, "Filter(publish results)");
-//                //notifyDataSetChanged();
-//            }
-//        };
     }
-
-//    @Override
-//    public Filter getFilter() {
-//        return filterByArtist;
-//    }
 
     class EventHolder extends RecyclerView.ViewHolder {
         private TextView eventTitleTxt;

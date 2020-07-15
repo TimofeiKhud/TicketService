@@ -27,16 +27,6 @@ public class PayingInteractorImpl implements PayingInteractor {
         return repository.getBookedSeats();
     }
 
-//    @Override
-//    public void saveId(String eventId) {
-//        repository.saveId(eventId);
-//    }
-
-//    @Override
-//    public void saveBookedSeats(List<Seat> seats) {
-//        repository.saveBookedSeats(seats);
-//    }
-
     @Override
     public Completable sellTickets() {
         return repository.sellTickets();

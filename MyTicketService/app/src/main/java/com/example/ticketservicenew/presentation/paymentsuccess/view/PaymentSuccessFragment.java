@@ -35,13 +35,10 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class PaymentSuccessFragment extends MvpAppCompatFragment implements PaymentSuccessView{
-    public static final String TAG = PaymentSuccessFragment.class.getName();
 
     @InjectPresenter
     PaymentSuccessPresenter presenter;
     Unbinder unbinder;
-
-
 
     @BindView(R.id.title_txt)
     TextView titleTxt;
@@ -67,21 +64,6 @@ public class PaymentSuccessFragment extends MvpAppCompatFragment implements Paym
         unbinder = ButterKnife.bind(this, v);
         setRetainInstance(true);
         setHasOptionsMenu(true);
-        //((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-//        List<Seat> bookedSeats = new ArrayList<>();
-//        int totalTickets = 0;
-//        for(int i = 0; i < 30; i++){
-//            if(getArguments().keySet().contains(Integer.toString(i))){
-//                for(String seat : getArguments().getStringArrayList(String.valueOf(i))){
-//                    Log.d(TAG, "seat: " + seat + "row: " + i);
-//                    totalTickets++;
-//                    bookedSeats.add(new Seat(seat, Integer.toString(i)));
-//                }
-//            }
-//        }
-//        presenter.setBookedSeats(getArguments().getString("Event id"), bookedSeats);
-
         PaymentSuccessFragmentArgs args = PaymentSuccessFragmentArgs.fromBundle(requireArguments());
         presenter.onShowPaymentInfo(args.getEventId(), args.getTitle());
         navToList.setText(toMainMenuString());
@@ -119,12 +101,6 @@ public class PaymentSuccessFragment extends MvpAppCompatFragment implements Paym
         unbinder.unbind();
         super.onDestroyView();
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        getActivity().setTitle("SUCCESS");
-//    }
 
     @Override
     public void showNextView() {

@@ -13,8 +13,6 @@ import java.util.TreeSet;
 
 public class SprefStoreProvider implements StoreProvider{
     private static final String SP_AUTH = "AUTH";
-    //private static final String SP_BOOKING_INFO = "BOOKINGINFO";
-    //private static final String SP_BOOKED_TICKETS = "BOOKEDTICKETS";
     private static final String TOKEN_KEY = "TOKEN";
     private static final String USERNAME_KEY = "USERNAME";
     private static final String TIME_KEY = "BOOKINGTIME";
@@ -171,25 +169,6 @@ public class SprefStoreProvider implements StoreProvider{
                 .putInt(TICKETS_NUM_KEY, bookedTicketsNum)
                 .commit();
     }
-
-
-
-//    @Nullable
-//    @Override
-//    public Map<String, Set<String>> getBookedTickets() {
-//        Set<String> eventIds = context.getSharedPreferences(SP_BOOKING_INFO, Context.MODE_PRIVATE)
-//                .getStringSet(EVENT_ID_KEY, null);
-//        if (eventIds == null){
-//            return null;
-//        }
-//        Map<String, Set<String>> res = new TreeMap<>();
-//        for(String id : eventIds){
-//            Set<String> tickets = context.getSharedPreferences(SP_BOOKED_TICKETS, Context.MODE_PRIVATE)
-//                    .getStringSet(id, new TreeSet<>());
-//            res.put(id, tickets);
-//        }
-//        return res;
-//    }
 
     //clear booked tickets & booking info
     @Override

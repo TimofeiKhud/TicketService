@@ -8,7 +8,6 @@ import java.util.Map;
  * Contains number of the row, locked seats in the row and price for one seat
  */
 public class LockedSeats {
-    //Map<String, List<String>> lockedSeats;
     private String row;
     private List<String> seats;
 
@@ -29,11 +28,4 @@ public class LockedSeats {
         seats.add(seat);
     }
 
-    //    public LockedSeats(Map<String, List<String>> lockedSeats) {
-//        this.lockedSeats = lockedSeats;
-//    }
-//
-//    public Map<String, List<String>> getLockedSeats() {
-//        return lockedSeats;
-//    }
 }

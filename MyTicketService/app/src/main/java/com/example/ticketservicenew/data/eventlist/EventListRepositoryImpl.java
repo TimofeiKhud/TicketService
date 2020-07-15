@@ -126,7 +126,6 @@ public class EventListRepositoryImpl implements EventListRepository{
 
     @Override
     public void onSearchTextChanged(String newText) {
-        Log.d(TAG, "onSearchTextChanged(search string text): " + newText);
         searchString = newText;
         searchStringChanged = true;
         listener.onFiltersChanged();
@@ -155,14 +154,10 @@ public class EventListRepositoryImpl implements EventListRepository{
             if (eventsToAdd == null){
                 throw new RuntimeException("Empty list");
             }
-            for(EventOutputDto dto : eventsToAdd){
-                Log.d(TAG, "onGetEventsSuccess: "+ dto.getArtist());
-            }
             allEvents.addAll(eventsToAdd);
             filteredEvents.addAll(eventsToAdd);
             return Single.just(eventsToAdd)/*.flatMap(this::getFilteredByCategory)/*.flatMap(this::getSearchedList)*/;
         }else {
-            Log.d(TAG, "onGetEventsSuccess: "+ listResponse.errorBody().string());
             throw new RuntimeException("Server error! Call to support");
         }
     }
@@ -173,7 +168,6 @@ public class EventListRepositoryImpl implements EventListRepository{
         }else{
             List<EventOutputDto> res = new ArrayList();
             for(EventOutputDto dto : listForFilter){
-                Log.d(TAG, "filter events: "+ dto.getArtist());
                 if(categFilters.contains(dto.getEventType())){
                     res.add(dto);
                 }
@@ -188,7 +182,6 @@ public class EventListRepositoryImpl implements EventListRepository{
         }
         List<EventOutputDto> res = new ArrayList<>();
         for (EventOutputDto dto : listForSearch){
-            Log.d(TAG, "search events: "+ dto.getArtist());
             if ((dto.getArtist().toLowerCase()).startsWith(searchString.toLowerCase())){
                 res.add(dto);
             }
@@ -199,7 +192,6 @@ public class EventListRepositoryImpl implements EventListRepository{
     private Single<List<EventOutputDto>> filterNotFilledEvents(List<EventOutputDto> listForFilter){
         List<EventOutputDto> res = new ArrayList<>();
         for (EventOutputDto dto : listForFilter){
-            Log.d(TAG, "filter Not Filled Events "+ dto.getArtist());
             if (dto.getArtist() != null){
                 res.add(dto);
             }

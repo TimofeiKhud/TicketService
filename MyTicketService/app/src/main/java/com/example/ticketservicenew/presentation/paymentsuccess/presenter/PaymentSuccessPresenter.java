@@ -28,7 +28,6 @@ public class PaymentSuccessPresenter extends MvpPresenter<PaymentSuccessView> {
     }
 
     public void onShowPaymentInfo(String eventId, String title) {
-        //interactor.saveId(eventId);
         BookingInfo info = interactor.getPaymentInfo(eventId);
         getViewState().showPaymentInfo(title, info);
     }
@@ -43,6 +42,4 @@ public class PaymentSuccessPresenter extends MvpPresenter<PaymentSuccessView> {
         interactor.clearBookingInfo();
         App.get().clearPaymentSuccess();
     }
-
-
 }

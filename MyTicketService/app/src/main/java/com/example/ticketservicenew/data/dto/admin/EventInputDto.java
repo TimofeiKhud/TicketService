@@ -4,11 +4,10 @@ import java.util.List;
 
 public class EventInputDto {
 
-    //TODO loginManagers list o emails?, setter, getter constructor
     public List<String> loginManagers;
-    public long eventStart; // $int64
+    public long eventStart;
     public int eventDurationHours;
-    public int hall; //hallId
+    public int hall;
     public int eventType;
 
     public EventInputDto(List<String> loginManagers, long eventStart, int eventDurationHours, int hall, int eventType) {

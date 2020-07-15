@@ -29,10 +29,6 @@ public interface HallRepository {
 
     void saveEventId(String eventId);
 
-    //BookingInfo getCurrentBookingInfo(String eventId);
-
-    //void saveHallStructure(HallStructure hallStructure);
-
     List<Price> getPriceList();
 
     void savePriceList(List<Price> priceList);

@@ -21,19 +21,4 @@ public interface ShoppingCartRepository {
 
     String getEventId();
 
-    //double getTotalPrice();
-
-    //int getTotalTicketsNum();
-
-
-
-    //Single<List<Price>> getPriceList(String eventId);
-
-//    void saveId(String eventId);
-//
-//    void saveBookedSeats(List<Seat> seats);
-//
-
-//
-//    List<Seat> getBookedSeats();
 }

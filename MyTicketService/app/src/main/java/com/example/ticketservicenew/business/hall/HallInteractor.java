@@ -29,5 +29,4 @@ public interface HallInteractor {
 
     void onSeatSelected(int selectedSeatsNum);
 
-    //void saveHallStructure(HallStructure hallStructure);
 }

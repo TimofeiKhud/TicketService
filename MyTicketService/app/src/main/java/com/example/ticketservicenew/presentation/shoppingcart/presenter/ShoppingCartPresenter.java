@@ -35,14 +35,6 @@ Disposable disposable;
     }
 
     public void onShowBookingInfo(/*String eventId, List<Seat> bookedSeats*/){
-//        if(eventId == null){
-//            return;
-//        }
-//        interactor.saveId(eventId);
-//        if(bookedSeats == null){
-//            return;
-//        }
-        //interactor.saveBookedSeats(bookedSeats);
         BookingInfo info = interactor.getBookingInfo();
         if(info == null){
             getViewState().showEmptyCart();

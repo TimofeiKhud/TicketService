@@ -25,16 +25,6 @@ public class PaymentSuccessInteractorImpl implements PaymentSuccessInteractor{
         return repository.getSoldSeats();
     }
 
-//    @Override
-//    public void saveId(String eventId) {
-//        repository.saveId(eventId);
-//    }
-
-//    @Override
-//    public void saveBookedSeats(List<Seat> seats) {
-//        repository.saveBookedSeats(seats);
-//    }
-
     @Override
     public BookingInfo getPaymentInfo(String eventId) {
         return repository.getPaymentInfo(eventId);

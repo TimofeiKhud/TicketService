@@ -15,12 +15,15 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.navigation.Navigation;
+
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.ticketservicenew.R;
 import com.example.ticketservicenew.presentation.auth.AuthView;
 import com.example.ticketservicenew.presentation.auth.login.presenter.LoginPresenter;
 import com.example.ticketservicenew.presentation.auth.registration.view.RegFragment;
+import com.example.ticketservicenew.presentation.hall.view.HallFragmentDirections;
 
 import java.util.List;
 
@@ -110,19 +113,12 @@ public class LoginFragment extends MvpAppCompatFragment implements AuthView{
 
     @OnClick(R.id.reg_btn)
     void onRegClick(){
-        navigateToRegFragment();
+        presenter.onRegistrationClicked();
     }
 
     @OnClick(R.id.inv_code_btn)
     void  onInvCodeClick(){
         //TODO
-    }
-
-    private void navigateToRegFragment(){
-//        getActivity().getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.fragment_container,new RegFragment())
-//                .commit();
     }
 
     @Override
@@ -163,10 +159,8 @@ public class LoginFragment extends MvpAppCompatFragment implements AuthView{
 
     @Override
     public void showNextView() {
-    //    setRegisteredUserState(true);
-//        Objects.requireNonNull(getFragmentManager()).beginTransaction()
-//        .replace(R.id.root, new EventListFragment())
-//                .commit();
+        Navigation.findNavController(getView())
+                .navigate(LoginFragmentDirections.actionLoginFragmentToRegFragment());
     }
 
     @Override

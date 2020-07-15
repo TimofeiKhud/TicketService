@@ -12,10 +12,6 @@ public interface PaymentSuccessInteractor {
 
     List<LockedSeats> getSoldSeats();
 
-    //void saveId(String eventId);
-
-    //void saveBookedSeats(List<Seat> seats);
-
     BookingInfo getPaymentInfo(String eventId);
 
     void clearBookingInfo();

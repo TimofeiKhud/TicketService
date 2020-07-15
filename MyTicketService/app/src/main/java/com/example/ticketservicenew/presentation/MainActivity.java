@@ -36,17 +36,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         drawerLayout = findViewById(R.id.main_layout);
 
-//        if(savedInstanceState == null){
-//            navigateToEventListFragment();
-//        }
-
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-        //final Drawable upArrow = getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp);
-        //upArrow.setColorFilter(getResources().getColor(R.color.dark_grey_color), PorterDuff.Mode.SRC_ATOP);
-        //getSupportActionBar().setHomeAsUpIndicator(upArrow);
-
         NavController navController = Navigation.findNavController(this, R.id.navHostFragment);
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout);
 
@@ -59,48 +48,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-        //drawerLayout = findViewById(R.id.main_layout);
-//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-//                switch (menuItem.getItemId()) {
-//                    case (R.id.nav_auth) : {
-//                        navigateToLoginOutFragment();
-//                        break;
-//                    }
-//                    case (R.id.nav_events) : {
-//                        navigateToEventListFragment();
-//                        break;
-//                    }
-//                    case (R.id.nav_shopping_card) : {
-//
-//                    }
-//                    case (R.id.nav_halls_scheme) : {
-//
-//                    }
-//                    case (R.id.nav_about_us) : {
-//                        break;
-//                    }
-//                }
-//                drawerLayout.closeDrawer(GravityCompat.START);
-//                return true;
-//            }
-//        });
         NavigationUI.setupWithNavController(navigationView, navController);
-
     }
-
-//    private void navigateToLoginOutFragment(){
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id, new LoginFragment())
-//                .commit();
-//    }
-//
-//    private void navigateToEventListFragment(){
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.fragment_container, new EventListFragment())
-//                .commit();
-//    }
 
     @Override
     public boolean onSupportNavigateUp() {

@@ -27,19 +27,6 @@ public class PayingPresenter extends MvpPresenter<PayingView> {
         App.get().plusPaying(new PayingModule()).inject(this);
     }
 
-
-
-//    public void setBookedSeats(String eventId, List<Seat> seats) {
-//        if(eventId == null){
-//            return;
-//        }
-//        interactor.saveId(eventId);
-//        if(seats == null){
-//            return;
-//        }
-//        interactor.saveBookedSeats(seats);
-//    }
-
     public void onShowBookingInfo(String eventId, String title) {
         BookingInfo info = interactor.getBookingInfo(eventId);
         getViewState().showBookingInfo(title, info);

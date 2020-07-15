@@ -82,50 +82,12 @@ public class EventFragment extends MvpAppCompatFragment implements EventView {
         EventFragmentArgs args = EventFragmentArgs.fromBundle(requireArguments());
         presenter.onShowEvent(args.getEventId());
 
-
-
-        //Single<EventInfo> single = presenter.getEventInfo(event.getEventId());
-//        disposable = single.subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(eventInfo -> {
-//                    ticketsAvailable.setText(String.format("%s%d", getString(R.string.tickets_available), eventInfo.getRestTick()));
-//                    priceRange.setText(String.format("Price range: %s € - %s €", eventInfo.getMinPrice(), eventInfo.getMaxPrice()));
-//                });
         return v;
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        getActivity().setTitle("EVENT");
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home: {
-//                Log.d(TAG, "back pressed");
-//                getParentFragmentManager().popBackStackImmediate();
-//                //getActivity().onBackPressed();
-//                return true;
-//            }
-//            default:
-//                return false;
-//        }
-//    }
-
     @OnClick(R.id.buy_tickets_btn)
     void onBuyTicketsClick(){
-//        HallFragment hallFragment = new HallFragment();
-//        Bundle bundle = new Bundle();
-//        hallFragment.setArguments(bundle);
-//        bundle.putString("Event id", event.getEventId());
-//            getParentFragmentManager().beginTransaction()
-//               .replace(R.id.fragment_container, hallFragment)
-//               .addToBackStack(TAG)
-//               .commit();
         presenter.onBuyTicketsClicked();
-
     }
 
     @Override

@@ -36,10 +36,6 @@ public class HallPresenter extends MvpPresenter<HallView> {
         App.get().plusHall(new HallModule()).inject(this);
     }
 
-//    public Single<HallStructure> getHallStructure(String id, boolean isShort){
-//        return interactor.getHallStructure(id, isShort);
-//    }
-
     public void onShowHallStructure(String eventId, int hallId) {
         interactor.saveId(eventId);
         getHallStructureDisposable = interactor.getHallStructure(eventId).subscribeOn(Schedulers.io())
@@ -47,47 +43,24 @@ public class HallPresenter extends MvpPresenter<HallView> {
                 .subscribe(hallStructure -> {
                     Timber.d("on hall structure recieved: " + "event id: " + eventId);
                     interactor.savePriceList(hallStructure.getPriceList());
-                    //Map<Pair<Double, String>, List<Integer>> priceRanges = hallStructure.getPriceRanges();
                     getViewState().showHallStructure(hallStructure, hallId);
-//                    for(Map.Entry<Integer, List<String>> pair : lockedSeats.entrySet()){
-//                        Log.d(TAG, "locked seats: row: " + pair.getKey() + "seat:" + pair.getValue());
-//                    }
-                    //List<Pair<Double,  String>> priceList = hallStructure.getPriceList();
                     getViewState().showPriceList(hallStructure.getPriceList());
-//                    for (Pair<Double, String> pair : priceList){
-//                        Log.d(TAG,"price: " + pair.first + "color: " + pair.second);
-//                    }
-
                 });
     }
 
     public void onBookTicketsClicked(List<Seat> seats){
-//        if (seats.isEmpty()){
-//            getViewState().showNotificationToast("Please select seats for booking");
-//            return;
-//        }
         getViewState().showProgress();
         bookingDisposable = interactor.onSeatsBooking(seats)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> {Log.d(TAG, "booking complete");
+                .subscribe(() -> {
                     interactor.onBookingSuccess();
                     onBookingSuccess();},
                         error-> {onBookingError(error.getMessage()); });
-                //.subscribe(() -> {Log.d(TAG, "booking complete");
-                //onBookingSuccess(interactor.getEventId(), seats);}, error-> onBookingError(TAG + "booking error"));
-       //return interactor.onSeatsBooked(seats);
-
-
     }
-
-//    public String getEventId() {
-//        return interactor.getEventId();
-//    }
 
     @Override
     public void onDestroy() {
-        Log.d(TAG, "on Destroy");
         super.onDestroy();
         getHallStructureDisposable.dispose();
         if(bookingDisposable != null){
@@ -97,7 +70,6 @@ public class HallPresenter extends MvpPresenter<HallView> {
     }
 
     private void onBookingSuccess(){
-        Log.d(TAG, "on booking success");
         getViewState().hideProgress();
         getViewState().showNextView();
     }

@@ -11,22 +11,9 @@ import java.util.List;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface PayingView extends MvpView {
-    //
-    //    @Override
-    //    public void showProgress() {
-    //        progressBar.setVisibility(View.VISIBLE);
-    //        payBtn.setEnabled(false);
-    //    }
-    //
-    //    @Override
-    //    public void hideProgress() {
-    //        progressBar.setVisibility(View.GONE);
-    //        payBtn.setEnabled(true);
-    //    }
-    //
+
     void showNextView(String id);
 
-    //
     void showError(String error);
 
     void showBookingInfo(String title, BookingInfo info);
@@ -34,10 +21,5 @@ public interface PayingView extends MvpView {
     void showProgress();
 
     void hideProgress();
-//    void showProgress();
-//    void hideProgress();
-//    @StateStrategyType(SingleStateStrategy.class)
-//    void showNextView();
-//    @StateStrategyType(SingleStateStrategy.class)
-//    void showError(String error);
+
 }

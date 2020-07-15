@@ -13,7 +13,4 @@ import io.reactivex.Single;
 public interface EventListInteractor {
     void onSearchTextChanged(String newText);
     boolean onFilterSelect(Pair<Long, Long> dateRange, List<Integer> categories);
-    //Single<List<Event>> onEventListLoading(int offset, int limit);
-    //Single<List<Event>> onFiltersSet(Pair<Long, Long> dateRange, List<Integer> categories);
-
 }

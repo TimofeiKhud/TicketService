@@ -29,7 +29,6 @@ public class PayingRepositoryImpl implements PayingRepository{
     private StoreProvider storeProvider;
 
     String eventId;
-    //List<LockedSeats> lockedSeats;
     BookingInfo info;
 
     public PayingRepositoryImpl(Api api, StoreProvider storeProvider) {
@@ -37,21 +36,10 @@ public class PayingRepositoryImpl implements PayingRepository{
         this.storeProvider = storeProvider;
     }
 
-//    @Override
-//    public void saveBookedSeats(List<Seat> seats) {
-//        this.bookedSeats = seats;
-//    }
-
     @Override
     public List<LockedSeats> getBookedSeats() {
-        //return lockedSeats;
         return info.getLockedSeats();
     }
-
-//    @Override
-//    public void saveId(String eventId) {
-//        this.eventId = eventId;
-//    }
 
     @Override
     public String getEventId() {

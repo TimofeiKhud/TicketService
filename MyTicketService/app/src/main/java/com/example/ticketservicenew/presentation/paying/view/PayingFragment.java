@@ -97,23 +97,6 @@ public class PayingFragment extends MvpAppCompatFragment implements PayingView {
         View v = inflater.inflate(R.layout.fragment_paying, container, false);
         unbinder = ButterKnife.bind(this, v);
         setHasOptionsMenu(true);
-        //((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-//        List<Seat> bookedSeats = new ArrayList<>();
-//        int totalTickets = 0;
-//        for(int i = 0; i < 30; i++){
-//            if(getArguments().keySet().contains(Integer.toString(i))){
-//                for(String seat : getArguments().getStringArrayList(String.valueOf(i))){
-//                    Log.d(TAG, "seat: " + seat + "row: " + i);
-//                    totalTickets++;
-//                    bookedSeats.add(new Seat(seat, Integer.toString(i)));
-//                }
-//            }
-//        }
-//        presenter.setBookedSeats(getArguments().getString("Event id"), bookedSeats);
-//        totalPriceTxt.setText("€" + getArguments().getDouble("Total price"));
-//        totalTicketsTxt.setText(totalTickets + "tickets");
-
         PayingFragmentArgs args = PayingFragmentArgs.fromBundle(requireArguments());
         presenter.onShowBookingInfo(args.getEventId(), args.getTitle());
         //Start PayPal Service
@@ -134,51 +117,15 @@ public class PayingFragment extends MvpAppCompatFragment implements PayingView {
         processPayment();
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        getActivity().setTitle("PAYING");
-//    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home: {
-//                Log.d(TAG, "back pressed");
-//                getParentFragmentManager().popBackStackImmediate();
-//                return true;
-//            }
-//            default:
-//                return false;
-//        }
-//    }
 
     @Override
     public void showNextView(String eventId) {
-  //      Bundle bundle = new Bundle();
-
-//        double totalPrice = getArguments().getDouble("Total price");
-//        bundle.putDouble("Total price", totalPrice);
-//        bundle.putString("Event id", id);
-//        for(Seat seat : seats){
-//            ArrayList<String> seatList = bundle.keySet().contains(seat.getRow()) && bundle.getStringArrayList(seat.getRow()) != null ?
-//                    bundle.getStringArrayList(seat.getRow()) : new ArrayList<>();
-//            seatList.add(seat.getSeatNum());
-//            bundle.putStringArrayList(seat.getRow(), seatList);
-//        }
-//
-//        PaymentSuccessFragment paymentSuccessFragment = new PaymentSuccessFragment();
-//        paymentSuccessFragment.setArguments(bundle);
-//        getParentFragmentManager().beginTransaction()
-//                .replace(R.id.fragment_container, paymentSuccessFragment)
-//                .addToBackStack(TAG)
-//                .commit();
         Navigation.findNavController(getView())
                 .navigate(PayingFragmentDirections.actionPayingFragmentToPaymentSuccessFragment(eventId, titleTxt.getText().toString()));
     }
@@ -207,7 +154,6 @@ public class PayingFragment extends MvpAppCompatFragment implements PayingView {
     }
 
     private void processPayment(){
-        //double amount = getArguments().getDouble("Total price");
         PayingFragmentArgs args = PayingFragmentArgs.fromBundle(requireArguments());
         double amount = presenter.getTotalPrice();
         PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(String.valueOf(amount)),
@@ -224,33 +170,11 @@ public class PayingFragment extends MvpAppCompatFragment implements PayingView {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(resultCode == PaymentActivity.RESULT_OK){
             if(requestCode == PAYPAL_REQUEST_CODE){
-                Log.d(TAG, "Paypal request");
                 PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
                 if(confirmation != null){
                     try {
-                        Log.d(TAG, "Payment success");
                         String paymentDetails = confirmation.toJSONObject().toString(4);
-
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("Payment Details", paymentDetails);
-//                        bundle.putDouble("Payment Amount", getArguments().getDouble("Total price"));
-                        Log.d(TAG, "payment details: " + paymentDetails);
                         presenter.onPaymentSuccess();
-
-
-                        //        bundle.putString("Event id", getArguments().getString("Event id"));
-//        bundle.putDouble("Total price", totalPrice);
-//
-//        ShoppingCartFragment shoppingCartFragment = new ShoppingCartFragment();
-//        shoppingCartFragment.setArguments(bundle);
-//        getParentFragmentManager().beginTransaction()
-//                .replace(R.id.fragment_container, shoppingCartFragment)
-//                .addToBackStack(TAG)
-//                .commit();
-
-//                        startActivity(new Intent(requireContext(), PayPalPaymentDetails.class)
-//                        .putExtra("Payment Details", paymentDetails)
-//                        .putExtra("Payment Amount", totalPriceTxt.getText().toString().lastIndexOf(" ")));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

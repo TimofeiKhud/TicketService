@@ -19,7 +19,6 @@ public class HallInteractorImpl implements HallInteractor{
     private static final String TAG = HallInteractorImpl.class.getName();
     private static final int MAX_SEATS_TO_BOOK = 10;
     private HallRepository repository;
-    //private BookingInfo info;
     private List<LockedSeats> lockedSeatsList;
 
     public HallInteractorImpl(HallRepository repository) {
@@ -92,11 +91,6 @@ public class HallInteractorImpl implements HallInteractor{
             throw new MaxSeatsSelectedException(String.format("Maximum number of tickets to book is %d", MAX_SEATS_TO_BOOK));
         }
     }
-
-//    @Override
-//    public void saveHallStructure(HallStructure hallStructure) {
-//        repository.saveHallStructure(hallStructure);
-//    }
 
     //throw exception if shopping cart contains tickets for another event
     private void isShoppingCartContainsTickets(String eventId){

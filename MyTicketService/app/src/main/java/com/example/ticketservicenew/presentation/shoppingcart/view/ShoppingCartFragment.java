@@ -37,6 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -84,45 +85,13 @@ public class ShoppingCartFragment extends MvpAppCompatFragment implements Shoppi
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_shopping_cart, container, false);
         unbinder = ButterKnife.bind(this, v);
-        //((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         adapter = new ShoppingCartAdapter();
         recyclerView.setAdapter(adapter);
         setRetainInstance(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-//        List<Seat> bookedSeats = new ArrayList<>();
-//        for(int i = 0; i < 30; i++){
-//            if(getArguments().keySet().contains(Integer.toString(i))){
-//                for(String seat : getArguments().getStringArrayList(String.valueOf(i))){
-//                    Log.d(TAG, "seat: " + seat + "row: " + i);
-//                    bookedSeats.add(new Seat(seat, Integer.toString(i)));
-//                }
-//            }
-//        }
-//        presenter.onShowBookedSeats(getArguments().getString("Event id"), bookedSeats);
         presenter.onShowBookingInfo();
         return  v;
     }
-
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home: {
-//                Log.d(TAG, "back pressed");
-//                showPrewView();
-//                //getActivity().onBackPressed();
-//                return true;
-//            }
-//            default:
-//                return false;
-//        }
-//    }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        getActivity().setTitle("SHOPPING CART");
-//    }
 
     @Override
     public void onDestroyView() {
@@ -159,38 +128,19 @@ public class ShoppingCartFragment extends MvpAppCompatFragment implements Shoppi
 
     @Override
     public void showNextView(String eventId, int ticketsNum, float totalPrice) {
-//        Bundle bundle = new Bundle();
-//        double totalPrice = getArguments().getDouble("Total price");
-//        bundle.putDouble("Total price", totalPrice);
-//        bundle.putString("Event id", id);
-//        for(Seat seat : seats){
-//            ArrayList<String> seatList = bundle.keySet().contains(seat.getRow()) && bundle.getStringArrayList(seat.getRow()) != null ?
-//                    bundle.getStringArrayList(seat.getRow()) : new ArrayList<>();
-//            seatList.add(seat.getSeatNum());
-//            bundle.putStringArrayList(seat.getRow(), seatList);
-//        }
-//
-//
-//        PayingFragment payingFragment = new PayingFragment();
-//        payingFragment.setArguments(bundle);
         Navigation.findNavController(getView())
                 .navigate(ShoppingCartFragmentDirections.actionShoppingCartFragmentToPayingFragment(eventId, titleTxt.getText().toString()));
-//        getParentFragmentManager().beginTransaction()
-//                .replace(R.id.fragment_container, payingFragment)
-//                .addToBackStack(TAG)
-//                .commit();
     }
 
     @Override
     public void showPrewView() {
         Navigation.findNavController(getView())
                 .navigate(ShoppingCartFragmentDirections.actionShoppingCartFragmentToEventListFragment());
-        //getParentFragmentManager().popBackStackImmediate();
     }
 
     @Override
     public void showError(String error) {
-Log.d(TAG, "show error");
+        Timber.d("show error");
     }
 
     @Override

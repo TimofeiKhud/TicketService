@@ -5,10 +5,7 @@ import java.util.Map;
 
 public class EventBookingDto {
         public String eventId;
-        //public List<Map<String, List<String>>> lockedSeats;
         public List<Map<String, List<String>>> lockedSeats;
-     // map of row + seat
-
 
         public EventBookingDto(String eventId, List<Map<String, List<String>>> lockedSeats) {
                 this.eventId = eventId;

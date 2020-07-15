@@ -55,15 +55,11 @@ public class PaginationTool {
                 final RecyclerView.OnScrollListener sl = new RecyclerView.OnScrollListener() {
                     @Override
                     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                        Log.d(TAG, "scroll observer");
                         if (!emitter.isDisposed()) {
                             int position = getLastVisibleItemPosition(recyclerView);
-                            Log.d(TAG, "scroll observer(position): " + position);
                             int updatePosition = recyclerView.getAdapter().getItemCount() - 1 - (limit / 2); //last visible item index to start loading
-                            Log.d(TAG, "scroll observer(updateposition): " + updatePosition);
                             if (position >= updatePosition) {
-                                int offset = loadingPage++;//recyclerView.getAdapter().getItemCount();
-                                Log.d(TAG, "scroll observer(new offset): " + offset);
+                                int offset = loadingPage++;
                                 emitter.onNext(offset);
                             }
                         }else{
@@ -72,9 +68,7 @@ public class PaginationTool {
                     }
                 };
                 recyclerView.addOnScrollListener(sl);
-                //subscriber.add(Subscriptions.create(() -> recyclerView.removeOnScrollListener(sl)));
                 if (recyclerView.getAdapter().getItemCount() == 0) {
-                    //int offset = recyclerView.getAdapter().getItemCount();
                     int offset = loadingPage++;
                     emitter.onNext(offset);
                 }

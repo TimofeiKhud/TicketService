@@ -7,13 +7,11 @@ import java.util.List;
  * Contains info about current booking
  */
 public class BookingInfo {
-   // private String eventId;
     private List<LockedSeats> lockedSeats;
     private int ticketsNum;
     private double totalPrice;
 
-    public BookingInfo(/*String eventId,*/ List<LockedSeats> lockedSeats, double totalPrice) {
-        //this.eventId = eventId;
+    public BookingInfo(List<LockedSeats> lockedSeats, double totalPrice) {
         this.lockedSeats = lockedSeats;
         this.totalPrice = totalPrice;
         for(LockedSeats seats : lockedSeats){
@@ -22,7 +20,6 @@ public class BookingInfo {
     }
 
     public BookingInfo() {
-        //this.eventId = eventId;
         lockedSeats = new ArrayList<>();
     }
 
@@ -40,10 +37,6 @@ public class BookingInfo {
         lockedSeats.add(new LockedSeats(row, seats));
     }
 
-//    public String getEventId() {
-//        return eventId;
-//    }
-
     public List<LockedSeats> getLockedSeats() {
         return lockedSeats;
     }
@@ -60,23 +53,4 @@ public class BookingInfo {
         this.totalPrice = totalPrice;
     }
 
-    //    public double getTotalPrice(List<Price> priceList){
-//        double totalPrice = 0;
-//            for(LockedSeats seats : lockedSeats){
-//                boolean priceFound = false;
-//                for(Price price : priceList) {
-//                    if(priceFound){
-//                        break;
-//                    }
-//                    for(String row : price.getRows()) {
-//                        if (row.equals(seats.getRow())) {
-//                            priceFound = true;
-//                            totalPrice += price.getPrice() * seats.getSeats().size();
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
-//        return totalPrice;
-//    }
 }

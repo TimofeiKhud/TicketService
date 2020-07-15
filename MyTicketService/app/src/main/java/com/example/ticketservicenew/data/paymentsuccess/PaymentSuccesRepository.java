@@ -17,5 +17,4 @@ public interface PaymentSuccesRepository {
 
     void saveId(String eventId);
 
-    //void saveSoldSeats(List<LockedSeats> seats);
 }

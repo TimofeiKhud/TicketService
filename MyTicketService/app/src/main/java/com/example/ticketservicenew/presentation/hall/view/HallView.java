@@ -23,8 +23,6 @@ public interface HallView extends MvpView {
     void showNextView();
     @StateStrategyType(SingleStateStrategy.class)
     void showError(String error);
-//    @StateStrategyType(SingleStateStrategy.class)
-//    void showNotificationToast(String notification);
 
     @StateStrategyType(SingleStateStrategy.class)
     void showHallStructure(HallStructure hallStructure, int hallId);

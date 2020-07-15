@@ -150,12 +150,6 @@ public class EventListFragment extends MvpAppCompatFragment implements EventList
         outState.putString(SEARCH_KEY, searchString);
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        getActivity().setTitle("EVENTS");
-//    }
-
     @Override
     public void onDestroyView() {
         if (eventListRecycler != null) {
@@ -257,10 +251,7 @@ public class EventListFragment extends MvpAppCompatFragment implements EventList
 
     @Override
     public void showEvent(String eventId) {
-        Navigation.findNavController(getView()).navigate(EventListFragmentDirections.actionEventListFragmentToEventFragment(eventId));
-//        getParentFragmentManager().beginTransaction()
-//                .replace(R.id.fragment_container, new EventFragment(event))
-//                .addToBackStack(TAG)
-//                .commit();
+        Navigation.findNavController(getView())
+                .navigate(EventListFragmentDirections.actionEventListFragmentToEventFragment(eventId));
     }
 }

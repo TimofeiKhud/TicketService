@@ -5,7 +5,6 @@ import com.example.ticketservicenew.data.eventlist.EventListRepository;
 import java.util.List;
 
 public class EventListInteractorImpl implements EventListInteractor {
-    private static final String TAG = "EventListInteractorImpl";
     private EventListRepository repository;
 
     public EventListInteractorImpl(EventListRepository repository) {

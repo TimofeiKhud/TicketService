@@ -22,11 +22,6 @@ public class PaymentSuccessRepositoryImpl implements PaymentSuccesRepository{
         this.storeProvider = storeProvider;
     }
 
-//    @Override
-//    public void saveSoldSeats(List<LockedSeats> seats) {
-//        this.soldSeats = seats;
-//    }
-
     @Override
     public void clearBookingInfo() {
         storeProvider.clearBooking();

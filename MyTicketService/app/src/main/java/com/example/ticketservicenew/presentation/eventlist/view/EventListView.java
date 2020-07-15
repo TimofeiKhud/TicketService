@@ -18,6 +18,4 @@ public interface EventListView extends MvpView {
     void showEvents(PagedList<Event> filteredEvents);
     void showProgress();
     void hideProgress();
-
-    //int getLastVisibleEventPosition(); void scrollEventList(RecyclerView recyclerview)
 }
