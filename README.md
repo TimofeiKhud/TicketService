@@ -60,4 +60,23 @@ User-friendly hall scheme, that clearly demonstrates available tickets and their
     alt="booking and payment"></td>
 </tr> 
 
+<tr> 
+    <td valign="top" colspan="2">
+     <h2>Stack:</h2>
+     <ul>
+      <li>MVP</li>
+      <li>RecyclerView, Paging</li>
+      <li>TimesSquare</li>
+      <li>ButterKnife</li>   
+      <li>Navigation</li>
+      <li>Picasso</li>
+      <li>SharedPreferences</li>
+      <li>Retrofit</li>
+      <li>Gson</li>
+      <li>RxJava2</li>
+      <li>Dagger2</li>
+      <li>PayPal</li>
+     </ul>
+    </td>
+</tr> 
    </table>
